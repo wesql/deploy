@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wesql-server-config
+data:
+  MYSQL_CUSTOM_CONFIG: |
+    [mysqld]
+    serverless=on
+    objectstore_provider=REPLACE_ME
+    objectstore_region=REPLACE_ME
+    objectstore_bucket=REPLACE_ME
+    datadir=/data/mysql/data
+    log-error=/data/mysql/log/mysqld-error.log
+    log-bin=binlog
