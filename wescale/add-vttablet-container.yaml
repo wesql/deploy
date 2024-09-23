@@ -1,0 +1,53 @@
+- op: add
+  path: /spec/template/spec/containers/-
+  value:
+    name: vttablet
+    image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-12
+    imagePullPolicy: IfNotPresent
+    env:
+      - name: CELL
+        value: "zone1"
+      - name: KB_POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: MYSQL_ROOT_USER
+        value: "root"
+      - name: MYSQL_ROOT_PASSWORD
+        value: "1234"
+      - name: MYSQL_PORT
+        value: "3306"
+      - name: VTTABLET_PORT
+        value: "15100"
+      - name: VTTABLET_GRPC_PORT
+        value: "16100"
+      - name: VTCTLD_HOST
+        value: wesql-vtcontroller-headless
+      - name: VTCTLD_WEB_PORT
+        value: "15000"
+      - name: TOPOLOGY_FLAGS
+        value: "--topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379 --topo_global_root /vitess/global"
+    ports:
+      - containerPort: 15100
+        name: vttabletport
+        protocol: TCP
+      - containerPort: 16100
+        name: vttabletgrpc
+        protocol: TCP
+    resources:
+      limits:
+        cpu: "0"
+        memory: "0"
+      requests:
+        cpu: "0"
+        memory: "0"
+    volumeMounts:
+      - mountPath: /scripts
+        name: scripts
+      - mountPath: /conf
+        name: wesql-config
+      - mountPath: /vtdataroot
+        name: data
+    command:
+      - "/scripts/vttablet.sh"

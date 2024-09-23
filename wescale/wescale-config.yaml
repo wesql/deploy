@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wesql-config
+  namespace: default
+data:
+  vttablet.cnf: |-
+    [vttablet]
+    health_check_interval=1s
+    shard_sync_retry_delay=1s
+    remote_operation_timeout=1s
+    db_connect_timeout_ms=500
+    table_acl_config_mode=simple
+    enable_logs=true
+    enable_query_log=true
+    table_acl_config=
+    queryserver_config_strict_table_acl=true
+    table_acl_config_reload_interval=5s
+    enforce_tableacl_config=false
+    # max_connections=83
+    # 10 percentage
+    # TxPool
+    queryserver_config_transaction_cap=20
+    # OltpReadPool
+    queryserver_config_pool_size=16
+    # OlapReadPool
+    queryserver_config_stream_pool_size=4
+    # the size of database connection pool in non transaction dml
+    non_transactional_dml_database_pool_size=3
+    # the number of rows to be processed in one batch by default
+    non_transactional_dml_default_batch_size=2000
+    # the interval of batch processing in milliseconds by default
+    non_transactional_dml_default_batch_interval=1
+    # the interval of table GC in hours
+    non_transactional_dml_table_gc_interval=24
+    # the interval of job scheduler running in seconds
+    non_transactional_dml_job_manager_running_interval=24
+    # the interval of throttle check in milliseconds
+    non_transactional_dml_throttle_check_interval=250
+    # the threshold of batch size
+    non_transactional_dml_batch_size_threshold=10000
+    # final threshold = ratio * non_transactional_dml_batch_size_threshold / table index numbers
+    non_transactional_dml_batch_size_threshold_ratio=0.5
+  vtgate.cnf: |-
+    [vtgate]
+    gateway_initial_tablet_timeout=30s
+    healthcheck_timeout=2s
+    srv_topo_timeout=1s
+    grpc_keepalive_time=10s
+    grpc_keepalive_timeout=10s
+    tablet_refresh_interval=1m
+    read_write_splitting_policy=disable
+    read_write_splitting_ratio=100
+    read_after_write_consistency=SESSION
+    read_after_write_timeout=30.0
+    enable_buffer=true
+    buffer_size=10000
+    buffer_window=180s
+    buffer_max_failover_duration=360s
+    buffer_min_time_between_failovers=10s
+    mysql_auth_server_impl=none
+    mysql_auth_server_static_file=
+    mysql_server_require_secure_transport=false
+    ddl_strategy=direct
+    enable_display_sql_execution_vttablets=false
+    enable_read_write_split_for_read_only_txn=false
+    enable_interception_for_dml_without_where=true
+    mysql_server_ssl_ca=
+    mysql_server_ssl_cert=
+    mysql_server_ssl_key=
+    enable_auto_scale=true

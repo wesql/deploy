@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/template/spec/volumes
+  value:
+    - name: scripts
+      configMap:
+        name: wesql-scripts
+        defaultMode: 365
+    - name: wesql-config
+      configMap:
+        name: wesql-config
