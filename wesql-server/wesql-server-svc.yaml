@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: wesql
+    app.kubernetes.io/instance: mycluster
+  name: mycluster-wesql-headless
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+    - name: wesql
+      port: 3306
+      protocol: TCP
+      targetPort: wesql
+    - name: raft
+      port: 13306
+      protocol: TCP
+      targetPort: raft
+  publishNotReadyAddresses: true
+  selector:
+    app.kubernetes.io/instance: mycluster
+    app.kubernetes.io/component: wesql
+  type: ClusterIP

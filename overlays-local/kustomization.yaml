@@ -1,0 +1,28 @@
+resources:
+  - ../wesql-server
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: wesql-server-secret
+    literals:
+      - WESQL_OBJECTSTORE_ACCESS_KEY=accesskey
+      - WESQL_OBJECTSTORE_SECRET_KEY=secretkey
+
+configMapGenerator:
+  - name: wesql-server-config
+    literals:
+      - MYSQL_CUSTOM_CONFIG=|
+        [mysqld]
+        serverless=on
+        objectstore_provider=aws
+        objectstore_region=cn-northwest-1
+        objectstore_bucket=wesql-chaos-test3
+        datadir=/data/mysql/data
+        log-error=/data/mysql/log/mysqld-error.log
+        log-bin=binlog
+
+images:
+    - name: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server
+      newTag: 8.0.35-6.alpha10.20240918.g18ad68b.25
