@@ -68,7 +68,7 @@ spec:
               name: vtgate-log
       initContainers:
         - name: wait-vtctld-ready
-          image: busybox:1.35
+          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-12
           imagePullPolicy: IfNotPresent
           command:
             - /scripts/wait-for-service.sh
