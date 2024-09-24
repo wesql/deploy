@@ -52,7 +52,7 @@ spec:
               name: wesql
               protocol: TCP
             - containerPort: 13306
-              name: paxos
+              name: raft
               protocol: TCP
           resources:
             limits:
