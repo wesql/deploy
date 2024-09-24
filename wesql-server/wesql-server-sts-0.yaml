@@ -54,11 +54,11 @@ spec:
               protocol: TCP
           resources:
             limits:
-              cpu: "4"
-              memory: 8Gi
+              cpu: "2"
+              memory: 4Gi
             requests:
-              cpu: "4"
-              memory: 8Gi
+              cpu: "2"
+              memory: 4Gi
           volumeMounts:
             - mountPath: /data/mysql
               name: data
