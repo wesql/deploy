@@ -1,4 +1,2 @@
 .idea
 .DS_Store
-**/wesql-server-config.yaml
-**/wesql-server-secret.yaml
