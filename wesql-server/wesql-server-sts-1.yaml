@@ -49,7 +49,7 @@ spec:
                   key: WESQL_OBJECTSTORE_SECRET_KEY
           ports:
             - containerPort: 3306
-              name: mysql
+              name: wesql
               protocol: TCP
             - containerPort: 13306
               name: raft
