@@ -28,4 +28,4 @@ patches:
               resources:
                 requests:
                   storage: 100Gi
-              storageClassName: standard
+              storageClassName: gp2
