@@ -20,5 +20,11 @@ patches:
         name: mycluster-wesql-0
       spec:
         volumeClaimTemplates:
-          - spec:
-              storageClassName: gp2
+          - metadata:
+              name: data
+            spec:
+              accessModes: [ "ReadWriteOnce" ]
+              resources:
+                requests:
+                  storage: 100Gi
+              storageClassName: standard
