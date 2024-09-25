@@ -12,3 +12,7 @@ data:
     datadir=/data/mysql/data
     log-error=/data/mysql/log/mysqld-error.log
     log-bin=binlog
+    gtid_mode=ON
+    enforce_gtid_consistency=ON
+    log_slave_updates=ON
+    binlog_format=ROW
