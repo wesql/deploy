@@ -6,9 +6,9 @@ data:
   MYSQL_CUSTOM_CONFIG: |
     [mysqld]
     serverless=on
-    objectstore_provider=REPLACE_ME
-    objectstore_region=REPLACE_ME
-    objectstore_bucket=REPLACE_ME
+    objectstore_provider=aws
+    objectstore_region=us-east-1
+    objectstore_bucket=wesql-cluster-test
     datadir=/data/mysql/data
     log-error=/data/mysql/log/mysqld-error.log
     log-bin=binlog
