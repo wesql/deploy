@@ -1,0 +1,253 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: wesql
+    app.kubernetes.io/instance: mycluster
+  name: mycluster-wesql-headless
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+  - name: wesql
+    port: 3306
+    protocol: TCP
+    targetPort: wesql
+  - name: raft
+    port: 13306
+    protocol: TCP
+    targetPort: raft
+  publishNotReadyAddresses: true
+  selector:
+    app.kubernetes.io/component: wesql
+    app.kubernetes.io/instance: mycluster
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: mycluster-wesql-0
+    app.kubernetes.io/storageclass: standard
+  name: mycluster-wesql-0
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mycluster-wesql-0
+  serviceName: mycluster-wesql-headless
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: wesql
+        app.kubernetes.io/instance: mycluster
+        app.kubernetes.io/name: mycluster-wesql-0
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "1234"
+        - name: WESQL_CLUSTER_MEMBERS
+          value: mycluster-wesql-0-0.mycluster-wesql-headless:13306;mycluster-wesql-1-0.mycluster-wesql-headless:13306;mycluster-wesql-2-0.mycluster-wesql-headless:13306
+        - name: WESQL_CLUSTER_MEMBER_INDEX
+          value: "0"
+        - name: MYSQL_CUSTOM_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_CUSTOM_CONFIG
+              name: wesql-server-config
+        - name: WESQL_OBJECTSTORE_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WESQL_OBJECTSTORE_ACCESS_KEY
+              name: wesql-server-secret
+        - name: WESQL_OBJECTSTORE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WESQL_OBJECTSTORE_SECRET_KEY
+              name: wesql-server-secret
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
+        imagePullPolicy: IfNotPresent
+        name: mysql
+        ports:
+        - containerPort: 3306
+          name: wesql
+          protocol: TCP
+        - containerPort: 13306
+          name: raft
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: 4Gi
+          requests:
+            cpu: "2"
+            memory: 4Gi
+        volumeMounts:
+        - mountPath: /data/mysql
+          name: data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: standard
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: mycluster-wesql-1
+    app.kubernetes.io/storageclass: standard
+  name: mycluster-wesql-1
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mycluster-wesql-1
+  serviceName: mycluster-wesql-headless
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: wesql
+        app.kubernetes.io/instance: mycluster
+        app.kubernetes.io/name: mycluster-wesql-1
+    spec:
+      containers:
+      - env:
+        - name: WESQL_LOGGER_MODE
+          value: "1"
+        - name: WESQL_CLUSTER_MEMBERS
+          value: mycluster-wesql-0-0.mycluster-wesql-headless:13306;mycluster-wesql-1-0.mycluster-wesql-headless:13306;mycluster-wesql-2-0.mycluster-wesql-headless:13306
+        - name: WESQL_CLUSTER_MEMBER_INDEX
+          value: "1"
+        - name: MYSQL_ROOT_PASSWORD
+          value: "1234"
+        - name: MYSQL_CUSTOM_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_CUSTOM_CONFIG
+              name: wesql-server-config
+        - name: WESQL_OBJECTSTORE_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WESQL_OBJECTSTORE_ACCESS_KEY
+              name: wesql-server-secret
+        - name: WESQL_OBJECTSTORE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WESQL_OBJECTSTORE_SECRET_KEY
+              name: wesql-server-secret
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
+        imagePullPolicy: IfNotPresent
+        name: mysql
+        ports:
+        - containerPort: 3306
+          name: wesql
+          protocol: TCP
+        - containerPort: 13306
+          name: raft
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: "1"
+            memory: 1Gi
+        volumeMounts:
+        - mountPath: /data/mysql
+          name: data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: standard
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: mycluster-wesql-2
+    app.kubernetes.io/storageclass: standard
+  name: mycluster-wesql-2
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mycluster-wesql-2
+  serviceName: mycluster-wesql-headless
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: wesql
+        app.kubernetes.io/instance: mycluster
+        app.kubernetes.io/name: mycluster-wesql-2
+    spec:
+      containers:
+      - env:
+        - name: WESQL_LOGGER_MODE
+          value: "1"
+        - name: WESQL_CLUSTER_MEMBERS
+          value: mycluster-wesql-0-0.mycluster-wesql-headless:13306;mycluster-wesql-1-0.mycluster-wesql-headless:13306;mycluster-wesql-2-0.mycluster-wesql-headless:13306
+        - name: WESQL_CLUSTER_MEMBER_INDEX
+          value: "2"
+        - name: MYSQL_ROOT_PASSWORD
+          value: "1234"
+        - name: MYSQL_CUSTOM_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_CUSTOM_CONFIG
+              name: wesql-server-config
+        - name: WESQL_OBJECTSTORE_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WESQL_OBJECTSTORE_ACCESS_KEY
+              name: wesql-server-secret
+        - name: WESQL_OBJECTSTORE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: WESQL_OBJECTSTORE_SECRET_KEY
+              name: wesql-server-secret
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
+        imagePullPolicy: IfNotPresent
+        name: mysql
+        ports:
+        - containerPort: 3306
+          name: wesql
+          protocol: TCP
+        - containerPort: 13306
+          name: raft
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: "1"
+            memory: 1Gi
+        volumeMounts:
+        - mountPath: /data/mysql
+          name: data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: standard
