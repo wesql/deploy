@@ -1,6 +1,6 @@
 # Deploy
-[Deploying WeSQL-Server Cluster in Kubernetes](https://wesql.io/docs/tutorial/kubernetes/wesql-server/)
-[Deploying WeScale Cluster in Kubernetes](https://wesql.io/docs/tutorial/kubernetes/wescale)
+* [Deploying WeSQL-Server Cluster in Kubernetes](https://wesql.io/docs/tutorial/kubernetes/wesql-server/)
+* [Deploying WeScale Cluster in Kubernetes](https://wesql.io/docs/tutorial/kubernetes/wescale)
 
 # About This Repository
 This repository uses kustomize to generate the Kubernetes manifests for deploying WeSQL-Server and WeScale in Kubernetes.
