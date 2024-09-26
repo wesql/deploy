@@ -610,7 +610,7 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 100Gi
+          storage: 10Gi
       storageClassName: standard
 ---
 apiVersion: apps/v1
@@ -687,7 +687,7 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 100Gi
+          storage: 10Gi
       storageClassName: standard
 ---
 apiVersion: apps/v1
@@ -764,7 +764,7 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 100Gi
+          storage: 10Gi
       storageClassName: standard
 ---
 apiVersion: v1

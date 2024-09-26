@@ -95,7 +95,7 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 100Gi
+          storage: 10Gi
       storageClassName: gp3
 ---
 apiVersion: apps/v1
@@ -172,7 +172,7 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 100Gi
+          storage: 10Gi
       storageClassName: gp3
 ---
 apiVersion: apps/v1
@@ -249,5 +249,5 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 100Gi
+          storage: 10Gi
       storageClassName: gp3

@@ -26,5 +26,5 @@ patches:
               accessModes: [ "ReadWriteOnce" ]
               resources:
                 requests:
-                  storage: 100Gi
+                  storage: 10Gi
               storageClassName: gp3
