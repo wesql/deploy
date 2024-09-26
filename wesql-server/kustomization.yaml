@@ -1,6 +1,4 @@
 resources:
-  - wesql-server-config.yaml
-  - wesql-server-secret.yaml
   - wesql-server-sts-0.yaml
   - wesql-server-sts-1.yaml
   - wesql-server-sts-2.yaml
