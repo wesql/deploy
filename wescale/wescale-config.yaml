@@ -68,4 +68,20 @@ data:
     mysql_server_ssl_ca=
     mysql_server_ssl_cert=
     mysql_server_ssl_key=
+    
+    # AutoScale & AutoSuspend Params
     enable_auto_scale=true
+    enable_auto_scale_up_down=true
+    
+    auto_scale_decision_making_interval=5s
+    
+    auto_scale_compute_unit_lower_bound=0.5
+    auto_scale_compute_unit_upper_bound=10
+    auto_scale_cpu_ratio=0.9
+    auto_scale_memory_ratio=0.75
+    
+    auto_scale_cluster_namespace=default
+    auto_scale_data_node_pod_name=mycluster-wesql-0-0
+    auto_scale_data_node_stateful_set_name=mycluster-wesql-0
+    auto_scale_logger_node_pod_name=mycluster-wesql-1-0,mycluster-wesql-2-0
+    auto_scale_logger_node_stateful_set_name=mycluster-wesql-1,mycluster-wesql-2
