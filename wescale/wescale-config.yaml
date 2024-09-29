@@ -57,7 +57,7 @@ data:
     buffer_size=10000
     buffer_window=180s
     buffer_max_failover_duration=360s
-    buffer_min_time_between_failovers=10s
+    buffer_min_time_between_failovers=0s
     mysql_auth_server_impl=none
     mysql_auth_server_static_file=
     mysql_server_require_secure_transport=false
