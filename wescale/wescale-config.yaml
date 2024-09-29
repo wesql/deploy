@@ -70,8 +70,8 @@ data:
     mysql_server_ssl_key=
     
     # AutoScale & AutoSuspend Params
-    enable_auto_scale=true
-    enable_auto_scale_up_down=true
+    enable_auto_scale=false
+    enable_auto_scale_up_down=false
     
     auto_scale_decision_making_interval=5s
     
