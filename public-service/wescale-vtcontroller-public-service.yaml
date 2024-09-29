@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wesql-vtcontroller-public-service
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: wesql-vtcontroller
+  ports:
+    - name: vtctld-webport
+      port: 15000
+      protocol: TCP
+      targetPort: vtctld-webport
+    - name: vtctld-grpcport
+      port: 15999
+      protocol: TCP
+      targetPort: vtctld-grpcport

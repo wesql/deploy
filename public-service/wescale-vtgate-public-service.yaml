@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wesql-vtgate-public-service
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: wesql-vtgate
+  ports:
+    - name: webport
+      port: 15001
+      protocol: TCP
+      targetPort: webport
+    - name: grpcport
+      port: 15991
+      protocol: TCP
+      targetPort: grpcport
+    - name: serverport
+      port: 15306
+      protocol: TCP
+      targetPort: serverport

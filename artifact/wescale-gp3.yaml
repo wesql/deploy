@@ -356,38 +356,6 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: wesql-vtgate-headless
-  namespace: default
-spec:
-  clusterIP: None
-  clusterIPs:
-  - None
-  internalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-  - name: webport
-    port: 15001
-    protocol: TCP
-    targetPort: webport
-  - name: grpcport
-    port: 15991
-    protocol: TCP
-    targetPort: grpcport
-  - name: serverport
-    port: 15306
-    protocol: TCP
-    targetPort: serverport
-  publishNotReadyAddresses: true
-  selector:
-    app.kubernetes.io/name: wesql-vtgate
-  sessionAffinity: None
-  type: ClusterIP
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
