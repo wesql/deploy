@@ -81,8 +81,10 @@ data:
     mysql_server_ssl_key=
 
     # AutoScale & AutoSuspend Params
+    enable_auto_suspend=false
+    auto_suspend_timeout=5m
+
     enable_auto_scale=false
-    enable_auto_scale_up_down=false
 
     auto_scale_decision_making_interval=5s
 
@@ -90,6 +92,7 @@ data:
     auto_scale_compute_unit_upper_bound=10
     auto_scale_cpu_ratio=0.9
     auto_scale_memory_ratio=0.75
+    auto_scale_use_relaxed_cpu_memory_ratio=false
 
     auto_scale_cluster_namespace=default
     auto_scale_data_node_pod_name=mycluster-wesql-0-0
@@ -135,7 +138,7 @@ data:
     non_transactional_dml_batch_size_threshold_ratio=0.5
 kind: ConfigMap
 metadata:
-  name: wesql-config
+  name: wescale-config
   namespace: default
 ---
 apiVersion: v1
@@ -296,7 +299,7 @@ data:
     echo -e "  >> $1 has started"
 kind: ConfigMap
 metadata:
-  name: wesql-scripts
+  name: wescale-scripts
   namespace: default
 ---
 apiVersion: v1
@@ -458,7 +461,7 @@ spec:
       volumes:
       - configMap:
           defaultMode: 365
-          name: wesql-scripts
+          name: wescale-scripts
         name: scripts
       - emptyDir: {}
         name: data
@@ -528,7 +531,7 @@ spec:
         - mountPath: /scripts
           name: scripts
         - mountPath: /conf
-          name: wesql-config
+          name: wescale-config
         - mountPath: /vtdataroot
           name: vtgate-log
       initContainers:
@@ -564,11 +567,11 @@ spec:
         name: vtgate-log
       - configMap:
           defaultMode: 365
-          name: wesql-scripts
+          name: wescale-scripts
         name: scripts
       - configMap:
-          name: wesql-config
-        name: wesql-config
+          name: wescale-config
+        name: wescale-config
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -688,17 +691,17 @@ spec:
         - mountPath: /scripts
           name: scripts
         - mountPath: /conf
-          name: wesql-config
+          name: wescale-config
         - mountPath: /vtdataroot
           name: data
       volumes:
       - configMap:
           defaultMode: 365
-          name: wesql-scripts
+          name: wescale-scripts
         name: scripts
       - configMap:
-          name: wesql-config
-        name: wesql-config
+          name: wescale-config
+        name: wescale-config
   volumeClaimTemplates:
   - metadata:
       name: data

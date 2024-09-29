@@ -63,7 +63,7 @@ spec:
             - mountPath: /scripts
               name: scripts
             - mountPath: /conf
-              name: wesql-config
+              name: wescale-config
             - mountPath: /vtdataroot
               name: vtgate-log
       initContainers:
@@ -98,8 +98,8 @@ spec:
           emptyDir: {}
         - name: scripts
           configMap:
-            name: wesql-scripts
+            name: wescale-scripts
             defaultMode: 365
-        - name: wesql-config
+        - name: wescale-config
           configMap:
-            name: wesql-config
+            name: wescale-config

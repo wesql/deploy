@@ -99,7 +99,7 @@ spec:
       volumes:
         - name: scripts
           configMap:
-            name: wesql-scripts
+            name: wescale-scripts
             defaultMode: 365
         - name: data
           emptyDir: {}

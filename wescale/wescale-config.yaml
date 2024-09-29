@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wesql-config
+  name: wescale-config
   namespace: default
 data:
   vttablet.cnf: |-
@@ -70,8 +70,10 @@ data:
     mysql_server_ssl_key=
     
     # AutoScale & AutoSuspend Params
+    enable_auto_suspend=false
+    auto_suspend_timeout=5m
+    
     enable_auto_scale=false
-    enable_auto_scale_up_down=false
     
     auto_scale_decision_making_interval=5s
     
@@ -79,6 +81,7 @@ data:
     auto_scale_compute_unit_upper_bound=10
     auto_scale_cpu_ratio=0.9
     auto_scale_memory_ratio=0.75
+    auto_scale_use_relaxed_cpu_memory_ratio=false
     
     auto_scale_cluster_namespace=default
     auto_scale_data_node_pod_name=mycluster-wesql-0-0

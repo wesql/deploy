@@ -49,7 +49,7 @@
       - mountPath: /scripts
         name: scripts
       - mountPath: /conf
-        name: wesql-config
+        name: wescale-config
       - mountPath: /vtdataroot
         name: data
     command:

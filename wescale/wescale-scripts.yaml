@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wesql-scripts
+  name: wescale-scripts
   namespace: default
 data:
   etcd-post-start.sh: |-
