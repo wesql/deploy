@@ -81,8 +81,8 @@ data:
     mysql_server_ssl_key=
 
     # AutoScale & AutoSuspend Params
-    enable_auto_scale=true
-    enable_auto_scale_up_down=true
+    enable_auto_scale=false
+    enable_auto_scale_up_down=false
 
     auto_scale_decision_making_interval=5s
 
@@ -383,7 +383,7 @@ spec:
           value: "2379"
         - name: CELL
           value: zone1
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-12
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-17
         imagePullPolicy: IfNotPresent
         lifecycle:
           postStart:
@@ -426,7 +426,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-12
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-17
         imagePullPolicy: IfNotPresent
         name: vtctld
         ports:
@@ -497,7 +497,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-12
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-17
         imagePullPolicy: IfNotPresent
         name: vtgate
         ports:
@@ -542,7 +542,7 @@ spec:
           value: wesql-vtcontroller-headless
         - name: VTCTLD_GRPC_PORT
           value: "15999"
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-12
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-17
         imagePullPolicy: IfNotPresent
         name: wait-vtctld-ready
         resources:
@@ -667,7 +667,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-12
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:autoscale-demo-17
         imagePullPolicy: IfNotPresent
         name: vttablet
         ports:
