@@ -15,7 +15,10 @@
       - name: MYSQL_ROOT_USER
         value: "root"
       - name: MYSQL_ROOT_PASSWORD
-        value: "1234"
+        valueFrom:
+          secretKeyRef:
+            name: wesql-server-secret
+            key: MYSQL_ROOT_PASSWORD
       - name: MYSQL_PORT
         value: "3306"
       - name: VTTABLET_PORT

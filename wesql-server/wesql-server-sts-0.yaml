@@ -25,7 +25,10 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
           - name: MYSQL_ROOT_PASSWORD
-            value: "1234"
+            valueFrom:
+              secretKeyRef:
+                name: wesql-server-secret
+                key: MYSQL_ROOT_PASSWORD
           - name: WESQL_CLUSTER_MEMBERS
             value: mycluster-wesql-0-0.mycluster-wesql-headless:13306;mycluster-wesql-1-0.mycluster-wesql-headless:13306;mycluster-wesql-2-0.mycluster-wesql-headless:13306
           - name: WESQL_CLUSTER_MEMBER_INDEX

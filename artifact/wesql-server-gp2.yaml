@@ -47,7 +47,10 @@ spec:
       containers:
       - env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "1234"
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: wesql-server-secret
         - name: WESQL_CLUSTER_MEMBERS
           value: mycluster-wesql-0-0.mycluster-wesql-headless:13306;mycluster-wesql-1-0.mycluster-wesql-headless:13306;mycluster-wesql-2-0.mycluster-wesql-headless:13306
         - name: WESQL_CLUSTER_MEMBER_INDEX
@@ -128,7 +131,10 @@ spec:
         - name: WESQL_CLUSTER_MEMBER_INDEX
           value: "1"
         - name: MYSQL_ROOT_PASSWORD
-          value: "1234"
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: wesql-server-secret
         - name: MYSQL_CUSTOM_CONFIG
           valueFrom:
             configMapKeyRef:
@@ -205,7 +211,10 @@ spec:
         - name: WESQL_CLUSTER_MEMBER_INDEX
           value: "2"
         - name: MYSQL_ROOT_PASSWORD
-          value: "1234"
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: wesql-server-secret
         - name: MYSQL_CUSTOM_CONFIG
           valueFrom:
             configMapKeyRef:

@@ -31,7 +31,10 @@ spec:
             - name: WESQL_CLUSTER_MEMBER_INDEX
               value: "2"
             - name: MYSQL_ROOT_PASSWORD
-              value: "1234"
+              valueFrom:
+                secretKeyRef:
+                  name: wesql-server-secret
+                  key: MYSQL_ROOT_PASSWORD
             - name: MYSQL_CUSTOM_CONFIG
               valueFrom:
                 configMapKeyRef:
