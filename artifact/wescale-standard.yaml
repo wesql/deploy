@@ -384,7 +384,7 @@ spec:
           value: "2379"
         - name: CELL
           value: zone1
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha8
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
         imagePullPolicy: IfNotPresent
         lifecycle:
           postStart:
@@ -427,7 +427,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha8
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
         imagePullPolicy: IfNotPresent
         name: vtctld
         ports:
@@ -498,7 +498,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha8
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
         imagePullPolicy: IfNotPresent
         name: vtgate
         ports:
@@ -543,7 +543,7 @@ spec:
           value: wesql-vtcontroller-headless
         - name: VTCTLD_GRPC_PORT
           value: "15999"
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha8
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
         imagePullPolicy: IfNotPresent
         name: wait-vtctld-ready
         resources:
@@ -668,7 +668,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha8
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
         imagePullPolicy: IfNotPresent
         name: vttablet
         ports:
