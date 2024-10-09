@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: wesql-vtgate
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: wesql-vtgate
@@ -20,7 +20,7 @@ spec:
       serviceAccountName: wesql-autoscale-sa
       containers:
         - name: vtgate
-          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
+          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha14
           imagePullPolicy: IfNotPresent
           command:
             - /scripts/vtgate.sh
@@ -68,7 +68,7 @@ spec:
               name: vtgate-log
       initContainers:
         - name: wait-vtctld-ready
-          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
+          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha14
           imagePullPolicy: IfNotPresent
           command:
             - /scripts/wait-for-service.sh

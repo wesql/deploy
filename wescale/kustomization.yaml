@@ -9,6 +9,7 @@ resources:
   - wescale-vtcontroller-svc.yaml
   - wescale-rbac.yaml
   - wescale-vtgate.yaml
+  - wescale-vtgate-svc.yaml
 
 patches:
   - target:

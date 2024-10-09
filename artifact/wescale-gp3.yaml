@@ -35,6 +35,17 @@ rules:
   - list
   - watch
   - update
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - watch
+  - list
+  - create
+  - update
+  - patch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -72,7 +83,7 @@ data:
     mysql_auth_server_impl=none
     mysql_auth_server_static_file=
     mysql_server_require_secure_transport=false
-    ddl_strategy=online
+    ddl_strategy=direct
     enable_display_sql_execution_vttablets=false
     enable_read_write_split_for_read_only_txn=false
     enable_interception_for_dml_without_where=true
@@ -97,6 +108,8 @@ data:
     auto_scale_data_node_stateful_set_name=mycluster-wesql-0
     auto_scale_logger_node_pod_name=mycluster-wesql-1-0,mycluster-wesql-2-0
     auto_scale_logger_node_stateful_set_name=mycluster-wesql-1,mycluster-wesql-2
+
+    auto_suspend_renew_deadline=5s
   vttablet.cnf: |-
     [vttablet]
     health_check_interval=1s
@@ -357,6 +370,38 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wesql-vtgate-headless
+  namespace: default
+spec:
+  clusterIP: None
+  clusterIPs:
+  - None
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: webport
+    port: 15001
+    protocol: TCP
+    targetPort: webport
+  - name: grpcport
+    port: 15991
+    protocol: TCP
+    targetPort: grpcport
+  - name: serverport
+    port: 15306
+    protocol: TCP
+    targetPort: serverport
+  publishNotReadyAddresses: true
+  selector:
+    app.kubernetes.io/name: wesql-vtgate
+  sessionAffinity: None
+  type: ClusterIP
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -384,7 +429,7 @@ spec:
           value: "2379"
         - name: CELL
           value: zone1
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha14
         imagePullPolicy: IfNotPresent
         lifecycle:
           postStart:
@@ -427,7 +472,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha14
         imagePullPolicy: IfNotPresent
         name: vtctld
         ports:
@@ -472,7 +517,7 @@ metadata:
   name: wesql-vtgate
   namespace: default
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: wesql-vtgate
@@ -498,7 +543,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha14
         imagePullPolicy: IfNotPresent
         name: vtgate
         ports:
@@ -543,7 +588,7 @@ spec:
           value: wesql-vtcontroller-headless
         - name: VTCTLD_GRPC_PORT
           value: "15999"
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha14
         imagePullPolicy: IfNotPresent
         name: wait-vtctld-ready
         resources:
@@ -668,7 +713,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha9
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha14
         imagePullPolicy: IfNotPresent
         name: vttablet
         ports:
