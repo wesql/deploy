@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: wesql-vtgate
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: wesql-vtgate
