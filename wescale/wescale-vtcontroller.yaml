@@ -31,8 +31,6 @@ spec:
               value: wesql-vtcontroller-headless
             - name: ETCD_PORT
               value: "2379"
-            - name: CELL
-              value: "zone1"
           ports:
             - containerPort: 2379
               name: etcd-client
@@ -62,8 +60,6 @@ spec:
           command:
             - /scripts/vtctld.sh
           env:
-            - name: CELL
-              value: "zone1"
             - name: VTCTLD_GRPC_PORT
               value: "15999"
             - name: VTCTLD_WEB_PORT

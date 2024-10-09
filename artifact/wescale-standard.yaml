@@ -425,8 +425,6 @@ spec:
           value: wesql-vtcontroller-headless
         - name: ETCD_PORT
           value: "2379"
-        - name: CELL
-          value: zone1
         image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha15
         imagePullPolicy: IfNotPresent
         lifecycle:
@@ -461,8 +459,6 @@ spec:
       - command:
         - /scripts/vtctld.sh
         env:
-        - name: CELL
-          value: zone1
         - name: VTCTLD_GRPC_PORT
           value: "15999"
         - name: VTCTLD_WEB_PORT
@@ -530,8 +526,6 @@ spec:
       - command:
         - /scripts/vtgate.sh
         env:
-        - name: CELL
-          value: zone1
         - name: VTGATE_WEB_PORT
           value: "15001"
         - name: VTGATE_GRPC_PORT
@@ -684,8 +678,6 @@ spec:
       - command:
         - /scripts/vttablet.sh
         env:
-        - name: CELL
-          value: zone1
         - name: KB_POD_NAME
           valueFrom:
             fieldRef:

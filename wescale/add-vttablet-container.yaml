@@ -5,8 +5,6 @@
     image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha15
     imagePullPolicy: IfNotPresent
     env:
-      - name: CELL
-        value: "zone1"
       - name: KB_POD_NAME
         valueFrom:
           fieldRef:

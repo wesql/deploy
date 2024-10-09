@@ -25,8 +25,6 @@ spec:
           command:
             - /scripts/vtgate.sh
           env:
-            - name: CELL
-              value: zone1
             - name: VTGATE_WEB_PORT
               value: "15001"
             - name: VTGATE_GRPC_PORT
