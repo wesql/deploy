@@ -20,7 +20,7 @@ spec:
       serviceAccountName: wesql-autoscale-sa
       containers:
         - name: vtgate
-          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha19
+          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha21
           imagePullPolicy: IfNotPresent
           command:
             - /scripts/vtgate.sh
@@ -66,7 +66,7 @@ spec:
               name: vtgate-log
       initContainers:
         - name: wait-vtctld-ready
-          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha19
+          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha21
           imagePullPolicy: IfNotPresent
           command:
             - /scripts/wait-for-service.sh
