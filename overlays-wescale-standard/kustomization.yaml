@@ -8,4 +8,4 @@ images:
   - name: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server
     newTag: 8.0.35-6.alpha10.20240918.g18ad68b.25
   - name: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale
-    newTag: 0.3.0-alpha15
+    newTag: 0.3.0-alpha18
