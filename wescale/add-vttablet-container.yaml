@@ -2,7 +2,7 @@
   path: /spec/template/spec/containers/-
   value:
     name: vttablet
-    image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha18
+    image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha19
     imagePullPolicy: IfNotPresent
     env:
       - name: KB_POD_NAME
