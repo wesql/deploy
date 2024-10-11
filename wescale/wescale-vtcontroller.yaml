@@ -70,7 +70,7 @@ spec:
             - name: VTCTLD_WEB_PORT
               value: "15000"
             - name: TOPOLOGY_FLAGS
-              value: "--topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379 --topo_global_root /vitess/global"
+              value: "--topo_implementation etcd2 --topo_global_server_address 127.0.0.1:2379 --topo_global_root /vitess/global"
           ports:
             - containerPort: 15000
               name: vtctld-webport
