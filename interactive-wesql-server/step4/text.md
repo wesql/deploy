@@ -9,5 +9,5 @@ kubectl wait --for=condition=Ready pod/mycluster-wesql-0-0 --timeout=300s
 Then connect to the WeSQL-Server cluster using the following command:
 
 ```bash
-kubectl exec -it mycluster-wesql-0-0 -- mysql -uroot -p1234
-```{{exec}}
+kubectl exec -it mycluster-wesql-0-0 -- mysql -uroot -p${YOUR_MYSQL_ROOT_PASSWORD}
+```{{copy}}
