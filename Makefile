@@ -4,6 +4,7 @@ build:
 	kubectl kustomize overlays-wesql-server-gp3 		> artifact/wesql-server-gp3.yaml
 	kubectl kustomize overlays-wesql-server-standard 	> artifact/wesql-server-standard.yaml
 	kubectl kustomize overlays-wesql-server-local-path 	> artifact/wesql-server-local-path.yaml
+	kubectl kustomize overlays-wesql-server-killercoda 	> artifact/wesql-server-killercoda.yaml
 
 	kubectl kustomize overlays-wescale-default 			> artifact/wescale-default.yaml
 	kubectl kustomize overlays-wescale-gp2 				> artifact/wescale-gp2.yaml

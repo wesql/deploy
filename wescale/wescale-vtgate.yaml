@@ -50,11 +50,11 @@ spec:
               restartPolicy: NotRequired
           resources:
             limits:
-              cpu: 500m
-              memory: 500Mi
+              cpu: "0"
+              memory: "0"
             requests:
-              cpu: 500m
-              memory: 500Mi
+              cpu: "0"
+              memory: "0"
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
