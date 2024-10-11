@@ -1,5 +1,5 @@
 {
-  "title": "Run Three WeSQL-Server Nodes in Kubernetes",
+  "title": "WeSQL-Server in Kubernetes",
   "description": "This scenario shows how to run three WeSQL-Server nodes in Kubernetes.",
   "details": {
     "intro": {

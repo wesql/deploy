@@ -1,5 +1,5 @@
 {
-  "title": "Run WeSQL-Server and WeScale in Kubernetes",
+  "title": "WeScale in Kubernetes",
   "description": "This guide will walk you through the steps to deploy a WeSQL-Server and WeScale cluster in Kubernetes",
   "details": {
     "intro": {
