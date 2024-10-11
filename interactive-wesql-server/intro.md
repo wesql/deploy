@@ -1,8 +1,5 @@
 
 <br>
 
-### Welcome !
+### Run Three WeSQL-Server Nodes in Kubernetes
 
-In this scenario we'll learn how to list all pods in the cluster.
-
-**HAVE FUN**
