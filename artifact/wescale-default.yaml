@@ -579,13 +579,24 @@ spec:
         image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
         imagePullPolicy: IfNotPresent
         name: wait-vtctld-ready
-        resources:
-          limits:
-            cpu: "0"
-            memory: "0"
-          requests:
-            cpu: "0"
-            memory: "0"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /scripts
+          name: scripts
+      - command:
+        - /scripts/wait-for-service.sh
+        - vttablet
+        - $(VTTABLET_HOST)
+        - $(VTTABLET_GRPC_PORT)
+        env:
+        - name: VTTABLET_HOST
+          value: mycluster-wesql-headless
+        - name: VTTABLET_GRPC_PORT
+          value: "16100"
+        image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
+        imagePullPolicy: IfNotPresent
+        name: wait-vttablet-ready
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
