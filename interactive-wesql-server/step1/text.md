@@ -1,6 +1,6 @@
 ### 1. Create the Configuration Files
 
-Use **kubectl** to create a ConfigMap with your WeSQL-Server configuration.
+Use kubectl to create a ConfigMap with your WeSQL-Server configuration.
 
 You need to replace the **objectstore_provider**, **objectstore_region**, and **objectstore_bucket** with your AWS S3 bucket info.
 Please make sure the bucket is empty before you proceed.
