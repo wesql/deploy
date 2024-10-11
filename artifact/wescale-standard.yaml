@@ -425,7 +425,7 @@ spec:
           value: wesql-vtcontroller-headless
         - name: ETCD_PORT
           value: "2379"
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha21
+        image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
         imagePullPolicy: IfNotPresent
         lifecycle:
           postStart:
@@ -466,7 +466,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha21
+        image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
         imagePullPolicy: IfNotPresent
         name: vtctld
         ports:
@@ -535,7 +535,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha21
+        image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
         imagePullPolicy: IfNotPresent
         name: vtgate
         ports:
@@ -580,7 +580,7 @@ spec:
           value: wesql-vtcontroller-headless
         - name: VTCTLD_GRPC_PORT
           value: "15999"
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha21
+        image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
         imagePullPolicy: IfNotPresent
         name: wait-vtctld-ready
         resources:
@@ -655,7 +655,7 @@ spec:
             secretKeyRef:
               key: WESQL_OBJECTSTORE_SECRET_KEY
               name: wesql-server-secret
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
+        image: apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
         imagePullPolicy: IfNotPresent
         name: mysql
         ports:
@@ -703,7 +703,7 @@ spec:
         - name: TOPOLOGY_FLAGS
           value: --topo_implementation etcd2 --topo_global_server_address wesql-vtcontroller-headless:2379
             --topo_global_root /vitess/global
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/apecloud-mysql-scale:0.3.0-alpha21
+        image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
         imagePullPolicy: IfNotPresent
         name: vttablet
         ports:
@@ -795,7 +795,7 @@ spec:
             secretKeyRef:
               key: WESQL_OBJECTSTORE_SECRET_KEY
               name: wesql-server-secret
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
+        image: apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
         imagePullPolicy: IfNotPresent
         name: mysql
         ports:
@@ -875,7 +875,7 @@ spec:
             secretKeyRef:
               key: WESQL_OBJECTSTORE_SECRET_KEY
               name: wesql-server-secret
-        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
+        image: apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
         imagePullPolicy: IfNotPresent
         name: mysql
         ports:

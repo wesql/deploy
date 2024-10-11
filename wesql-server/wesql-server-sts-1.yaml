@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
+          image: apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
           imagePullPolicy: IfNotPresent
           env:
             - name: WESQL_LOGGER_MODE
