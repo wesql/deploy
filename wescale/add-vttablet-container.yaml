@@ -38,6 +38,11 @@
       - containerPort: 16100
         name: vttabletgrpc
         protocol: TCP
+    readinessProbe:
+      tcpSocket:
+        port: vttabletgrpc
+      initialDelaySeconds: 5
+      periodSeconds: 10
     resources:
       limits:
         cpu: "0"
