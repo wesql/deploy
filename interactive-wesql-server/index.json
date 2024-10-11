@@ -20,6 +20,10 @@
         "title": "Deploy the WeSQL-Server Cluster",
         "text": "step3/text.md",
         "verify": "step3/verify.sh"
+      },
+      {
+        "title": "Connect to the WeSQL-Server Cluster",
+        "text": "step4/text.md",
       }
     ],
     "finish": {
