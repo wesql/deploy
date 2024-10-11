@@ -1,6 +1,6 @@
 {
-  "title": "Run Three WeSQL-Server Nodes in Kubernetes",
-  "description": "This scenario shows how to run three WeSQL-Server nodes in Kubernetes.",
+  "title": "Run WeSQL-Server and WeScale in Kubernetes",
+  "description": "This guide will walk you through the steps to deploy a WeSQL-Server and WeScale cluster in Kubernetes",
   "details": {
     "intro": {
       "text": "intro.md"
@@ -17,12 +17,12 @@
         "verify": "step2/verify.sh"
       },
       {
-        "title": "Deploy the WeSQL-Server Cluster",
+        "title": "Deploy the WeSQL-Server and WeScale Cluster",
         "text": "step3/text.md",
         "verify": "step3/verify.sh"
       },
       {
-        "title": "Connect to the WeSQL-Server Cluster",
+        "title": "Connect to the WeScale Cluster",
         "text": "step4/text.md"
       }
     ],
