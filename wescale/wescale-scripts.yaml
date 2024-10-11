@@ -47,13 +47,15 @@ data:
       --advertise-client-urls "http://0.0.0.0:${etcd_port}" 2>&1 | tee "${VTDATAROOT}/etcd.log"
 
   vtctld.sh: |-
-    #!/bin/bash
+    #!/bin/bash    
     echo "starting vtctld"
     cell=${CELL:-'zone1'}
     grpc_port=${VTCTLD_GRPC_PORT:-'15999'}
     vtctld_web_port=${VTCTLD_WEB_PORT:-'15000'}
     topology_fags=${TOPOLOGY_FLAGS:-'--topo_implementation etcd2 --topo_global_server_address 127.0.0.1:2379 --topo_global_root /vitess/global'}
 
+    /scripts/wait-for-service.sh etcd 127.0.0.1 2379
+    
     VTDATAROOT=$VTDATAROOT/vtctld
     su vitess <<EOF
     mkdir -p $VTDATAROOT
@@ -102,6 +104,7 @@ data:
     uid="${KB_POD_NAME##*-}"
     mysql_root=${MYSQL_ROOT_USER:-'root'}
     mysql_root_passwd=${MYSQL_ROOT_PASSWORD:-'123456'}
+    mysql_host=${MYSQL_HOST:-'127.0.0.1'}
     mysql_port=${MYSQL_PORT:-'3306'}
     port=${VTTABLET_PORT:-'15100'}
     grpc_port=${VTTABLET_GRPC_PORT:-'16100'}
@@ -116,6 +119,7 @@ data:
     topology_fags=${TOPOLOGY_FLAGS:-'--topo_implementation etcd2 --topo_global_server_address 127.0.0.1:2379 --topo_global_root /vitess/global'}
 
     /scripts/wait-for-service.sh vtctld $vtctld_host $vtctld_web_port
+    /scripts/wait-for-service.sh mysql $mysql_host $mysql_port
 
     echo "starting vttablet for $alias..."
 
@@ -136,7 +140,7 @@ data:
     --file_backup_storage_root $VTDATAROOT/backups \
     --port $port \
     --db_port $mysql_port \
-    --db_host 127.0.0.1 \
+    --db_host $mysql_host \
     --db_allprivs_user $mysql_root \
     --db_allprivs_password $mysql_root_passwd \
     --db_dba_user $mysql_root \

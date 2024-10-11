@@ -17,6 +17,8 @@
           secretKeyRef:
             name: wesql-server-secret
             key: MYSQL_ROOT_PASSWORD
+      - name: MYSQL_HOST
+        value: "127.0.0.1"
       - name: MYSQL_PORT
         value: "3306"
       - name: VTTABLET_PORT
