@@ -43,6 +43,11 @@ spec:
             - containerPort: 15306
               name: serverport
               protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: serverport
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resizePolicy:
             - resourceName: cpu
               restartPolicy: NotRequired

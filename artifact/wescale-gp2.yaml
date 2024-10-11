@@ -437,6 +437,11 @@ spec:
         - containerPort: 2379
           name: etcd-client
           protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: etcd-client
         resizePolicy:
         - resourceName: cpu
           restartPolicy: NotRequired
@@ -548,6 +553,11 @@ spec:
         - containerPort: 15306
           name: serverport
           protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: serverport
         resizePolicy:
         - resourceName: cpu
           restartPolicy: NotRequired
