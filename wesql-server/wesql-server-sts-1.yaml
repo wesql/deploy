@@ -57,6 +57,11 @@ spec:
             - containerPort: 13306
               name: raft
               protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: wesql
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             limits:
               cpu: "1"
@@ -75,4 +80,3 @@ spec:
         resources:
           requests:
             storage: 10Gi
-        storageClassName: standard

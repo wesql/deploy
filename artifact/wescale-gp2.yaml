@@ -665,6 +665,11 @@ spec:
         - containerPort: 13306
           name: raft
           protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: wesql
         resources:
           limits:
             cpu: "2"
@@ -805,6 +810,11 @@ spec:
         - containerPort: 13306
           name: raft
           protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: wesql
         resources:
           limits:
             cpu: "1"
@@ -885,6 +895,11 @@ spec:
         - containerPort: 13306
           name: raft
           protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: wesql
         resources:
           limits:
             cpu: "1"

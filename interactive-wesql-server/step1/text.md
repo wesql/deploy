@@ -4,7 +4,7 @@ Use `kubectl` to create a ConfigMap with your WeSQL-Server configuration.
 
 You need to replace the `objectstore_provider`, `objectstore_region`, and `objectstore_bucket` with your AWS S3 bucket info.
 
-```bash
+```yaml {9-11}
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ConfigMap
@@ -24,5 +24,5 @@ data:
     log_slave_updates=ON
     binlog_format=ROW
     skip_name_resolve=ON
-EOF
-```
+  EOF
+```{{copy}}

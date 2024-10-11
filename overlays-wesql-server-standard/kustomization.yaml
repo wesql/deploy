@@ -7,3 +7,24 @@ resources:
 images:
     - name: apecloud/wesql-server
       newTag: 8.0.35-6.alpha10.20240918.g18ad68b.25
+
+
+patches:
+  - target:
+      kind: StatefulSet
+      labelSelector: "app.kubernetes.io/storageclass=standard"
+    patch: |
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: mycluster-wesql-0
+      spec:
+        volumeClaimTemplates:
+          - metadata:
+              name: data
+            spec:
+              accessModes: [ "ReadWriteOnce" ]
+              resources:
+                requests:
+                  storage: 10Gi
+              storageClassName: standard
