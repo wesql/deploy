@@ -11,6 +11,7 @@ build:
 	kubectl kustomize overlays-wescale-gp3 				> artifact/wescale-gp3.yaml
 	kubectl kustomize overlays-wescale-standard 		> artifact/wescale-standard.yaml
 	kubectl kustomize overlays-wescale-local-path 		> artifact/wescale-local-path.yaml
+	kubectl kustomize overlays-wescale-killercoda 		> artifact/wescale-killercoda.yaml
 
 
 clean:
