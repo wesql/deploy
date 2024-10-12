@@ -15,5 +15,5 @@ docker run -it --network my-network --rm mysql mysql -hwesql-server -uroot -ppas
 You can also connect to WeScale using a MySQL client or driver from any environment that can access the SQL listening port.
 
 ```bash
-docker run -it --network my-network --rm mysql mysql -hwesql-server -P15306 -uroot -ppasswd
+docker run -it --network my-network --rm mysql mysql -hwescale -P15306 -uroot -ppasswd
 ```{{exec}}
