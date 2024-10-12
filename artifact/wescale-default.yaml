@@ -386,6 +386,19 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: etcd-data-pvc
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  storageClassName: default
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -491,8 +504,9 @@ spec:
           defaultMode: 365
           name: wescale-scripts
         name: scripts
-      - emptyDir: {}
-        name: data
+      - name: data
+        persistentVolumeClaim:
+          claimName: etcd-data-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment

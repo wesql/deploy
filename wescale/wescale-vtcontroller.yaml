@@ -1,3 +1,16 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: etcd-data-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -103,4 +116,5 @@ spec:
             name: wescale-scripts
             defaultMode: 365
         - name: data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: etcd-data-pvc

@@ -29,3 +29,13 @@ patches:
                 requests:
                   storage: 10Gi
               storageClassName: local-path
+  - target:
+      kind: PersistentVolumeClaim
+      name: etcd-data-pvc
+    patch: |
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: etcd-data-pvc
+      spec:
+        storageClassName: local-path
