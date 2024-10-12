@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: etcd
-          image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
+          image: apecloud/apecloud-mysql-scale:0.3.0-alpha24
           imagePullPolicy: IfNotPresent
           command:
             - /scripts/etcd.sh
@@ -60,7 +60,7 @@ spec:
             - name: data
               mountPath: /vtdataroot
         - name: vtctld
-          image: apecloud/apecloud-mysql-scale:0.3.0-alpha23
+          image: apecloud/apecloud-mysql-scale:0.3.0-alpha24
           imagePullPolicy: IfNotPresent
           command:
             - /scripts/vtctld.sh
