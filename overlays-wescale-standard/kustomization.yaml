@@ -30,12 +30,20 @@ patches:
                   storage: 10Gi
               storageClassName: standard
   - target:
-      kind: PersistentVolumeClaim
-      name: etcd-data-pvc
+      kind: StatefulSet
+      labelSelector: "app.kubernetes.io/name=wesql-vtcontroller"
     patch: |
-      apiVersion: v1
-      kind: PersistentVolumeClaim
+      apiVersion: apps/v1
+      kind: StatefulSet
       metadata:
-        name: etcd-data-pvc
+        name: wesql-vtcontroller
       spec:
-        storageClassName: standard
+        volumeClaimTemplates:
+          - metadata:
+              name: data
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 100Mi
+              storageClassName: standard

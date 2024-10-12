@@ -1,24 +1,12 @@
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: etcd-data-pvc
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
----
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: wesql-vtcontroller
   namespace: default
   labels:
     app.kubernetes.io/name: wesql-vtcontroller
 spec:
+  serviceName: wesql-vtcontroller-headless
   replicas: 1
   selector:
     matchLabels:
@@ -53,11 +41,6 @@ spec:
               port: etcd-client
             initialDelaySeconds: 5
             periodSeconds: 10
-          resizePolicy:
-            - resourceName: cpu
-              restartPolicy: NotRequired
-            - resourceName: memory
-              restartPolicy: NotRequired
           resources:
             limits:
               cpu: "0"
@@ -91,11 +74,11 @@ spec:
             - containerPort: 15999
               name: vtctld-grpcport
               protocol: TCP
-          resizePolicy:
-            - resourceName: cpu
-              restartPolicy: NotRequired
-            - resourceName: memory
-              restartPolicy: NotRequired
+          readinessProbe:
+            tcpSocket:
+              port: vtctld-grpcport
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             limits:
               cpu: "0"
@@ -115,6 +98,11 @@ spec:
           configMap:
             name: wescale-scripts
             defaultMode: 365
-        - name: data
-          persistentVolumeClaim:
-            claimName: etcd-data-pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 100Mi

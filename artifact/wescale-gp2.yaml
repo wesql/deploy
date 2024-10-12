@@ -386,128 +386,6 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: etcd-data-pvc
-  namespace: default
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
-  storageClassName: gp2
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app.kubernetes.io/name: wesql-vtcontroller
-  name: wesql-vtcontroller
-  namespace: default
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: wesql-vtcontroller
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: wesql-vtcontroller
-    spec:
-      containers:
-      - command:
-        - /scripts/etcd.sh
-        env:
-        - name: ETCD_SERVER
-          value: wesql-vtcontroller-headless
-        - name: ETCD_PORT
-          value: "2379"
-        image: apecloud/apecloud-mysql-scale:0.3.0-alpha26
-        imagePullPolicy: IfNotPresent
-        lifecycle:
-          postStart:
-            exec:
-              command:
-              - /scripts/etcd-post-start.sh
-        name: etcd
-        ports:
-        - containerPort: 2379
-          name: etcd-client
-          protocol: TCP
-        readinessProbe:
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          tcpSocket:
-            port: etcd-client
-        resizePolicy:
-        - resourceName: cpu
-          restartPolicy: NotRequired
-        - resourceName: memory
-          restartPolicy: NotRequired
-        resources:
-          limits:
-            cpu: "0"
-            memory: "0"
-          requests:
-            cpu: "0"
-            memory: "0"
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        volumeMounts:
-        - mountPath: /scripts
-          name: scripts
-        - mountPath: /vtdataroot
-          name: data
-      - command:
-        - /scripts/vtctld.sh
-        env:
-        - name: VTCTLD_GRPC_PORT
-          value: "15999"
-        - name: VTCTLD_WEB_PORT
-          value: "15000"
-        - name: TOPOLOGY_FLAGS
-          value: --topo_implementation etcd2 --topo_global_server_address 127.0.0.1:2379
-            --topo_global_root /vitess/global
-        image: apecloud/apecloud-mysql-scale:0.3.0-alpha26
-        imagePullPolicy: IfNotPresent
-        name: vtctld
-        ports:
-        - containerPort: 15000
-          name: vtctld-webport
-          protocol: TCP
-        - containerPort: 15999
-          name: vtctld-grpcport
-          protocol: TCP
-        resizePolicy:
-        - resourceName: cpu
-          restartPolicy: NotRequired
-        - resourceName: memory
-          restartPolicy: NotRequired
-        resources:
-          limits:
-            cpu: "0"
-            memory: "0"
-          requests:
-            cpu: "0"
-            memory: "0"
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        volumeMounts:
-        - mountPath: /scripts
-          name: scripts
-        - mountPath: /vtdataroot
-          name: data
-      volumes:
-      - configMap:
-          defaultMode: 365
-          name: wescale-scripts
-        name: scripts
-      - name: data
-        persistentVolumeClaim:
-          claimName: etcd-data-pvc
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -947,4 +825,116 @@ spec:
       resources:
         requests:
           storage: 10Gi
+      storageClassName: gp2
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/name: wesql-vtcontroller
+  name: wesql-vtcontroller
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wesql-vtcontroller
+  serviceName: wesql-vtcontroller-headless
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wesql-vtcontroller
+    spec:
+      containers:
+      - command:
+        - /scripts/etcd.sh
+        env:
+        - name: ETCD_SERVER
+          value: wesql-vtcontroller-headless
+        - name: ETCD_PORT
+          value: "2379"
+        image: apecloud/apecloud-mysql-scale:0.3.0-alpha26
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - /scripts/etcd-post-start.sh
+        name: etcd
+        ports:
+        - containerPort: 2379
+          name: etcd-client
+          protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: etcd-client
+        resources:
+          limits:
+            cpu: "0"
+            memory: "0"
+          requests:
+            cpu: "0"
+            memory: "0"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /scripts
+          name: scripts
+        - mountPath: /vtdataroot
+          name: data
+      - command:
+        - /scripts/vtctld.sh
+        env:
+        - name: VTCTLD_GRPC_PORT
+          value: "15999"
+        - name: VTCTLD_WEB_PORT
+          value: "15000"
+        - name: TOPOLOGY_FLAGS
+          value: --topo_implementation etcd2 --topo_global_server_address 127.0.0.1:2379
+            --topo_global_root /vitess/global
+        image: apecloud/apecloud-mysql-scale:0.3.0-alpha26
+        imagePullPolicy: IfNotPresent
+        name: vtctld
+        ports:
+        - containerPort: 15000
+          name: vtctld-webport
+          protocol: TCP
+        - containerPort: 15999
+          name: vtctld-grpcport
+          protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: vtctld-grpcport
+        resources:
+          limits:
+            cpu: "0"
+            memory: "0"
+          requests:
+            cpu: "0"
+            memory: "0"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /scripts
+          name: scripts
+        - mountPath: /vtdataroot
+          name: data
+      volumes:
+      - configMap:
+          defaultMode: 365
+          name: wescale-scripts
+        name: scripts
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
       storageClassName: gp2
