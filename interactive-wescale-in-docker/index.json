@@ -7,23 +7,28 @@
     },
     "steps": [
       {
-        "title": "Create the Configuration Files",
+        "title": "Create Local Directory",
         "text": "step1/text.md",
         "verify": "step1/verify.sh"
       },
       {
-        "title": "Create the Secret",
+        "title": "Create a Docker network for inter-node communication",
         "text": "step2/text.md",
         "verify": "step2/verify.sh"
       },
       {
-        "title": "Deploy the WeSQL-Server and WeScale Cluster",
+        "title": "Start WeSQL-Server Data Node",
         "text": "step3/text.md",
         "verify": "step3/verify.sh"
       },
       {
-        "title": "Connect to the WeScale Cluster",
-        "text": "step4/text.md"
+        "title": "Start WeScale Container",
+        "text": "step4/text.md",
+        "verify": "step4/verify.sh"
+      },
+      {
+        "title": "Connecting to the Cluster",
+        "text": "step5/text.md"
       }
     ],
     "finish": {

@@ -9,11 +9,11 @@ You can connect to the WeSQL cluster using a MySQL client or driver from any env
 - replace passwd with the real password for the root user.
 
 ```bash
-docker run -it --network my-network --rm mysql mysql -h127.0.0.1 -uroot -ppasswd
+docker run -it --network my-network --rm mysql mysql -hwesql-server -uroot -ppasswd
 ```{{exec}}
 
 You can also connect to WeScale using a MySQL client or driver from any environment that can access the SQL listening port.
 
 ```bash
-docker run -it --network my-network --rm mysql mysql -h127.0.0.1 -P15306 -uroot -ppasswd
+docker run -it --network my-network --rm mysql mysql -hwesql-server -P15306 -uroot -ppasswd
 ```{{exec}}
