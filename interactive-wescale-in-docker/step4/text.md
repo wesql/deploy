@@ -14,4 +14,4 @@ docker run -itd \
   -p 15306:15306 \
   apecloud/apecloud-mysql-scale:0.3.0-alpha24 \
   /vt/examples/wesql-server/init_single_node_cluster.sh
-```
+```{{exec}}

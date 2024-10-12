@@ -6,4 +6,4 @@ To create the directory, run the following command:
 
 ```bash
 mkdir -p ~/wesql-local-dir
-```
+```{{exec}}

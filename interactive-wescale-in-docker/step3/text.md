@@ -23,7 +23,7 @@ docker run -itd --name wesql-server \
     -e WESQL_OBJECTSTORE_SECRET_KEY='********************' \
     -e MYSQL_ROOT_PASSWORD=passwd \
     apecloud/wesql-server:8.0.35-6.alpha10.20240918.g18ad68b.25
-```
+```{{copy}}
 
 - replace `us-west-1` with the real region of your S3 bucket.
 - replace `wesql-storage` with the real name of your S3 bucket.

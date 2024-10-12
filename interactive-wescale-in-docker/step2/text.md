@@ -2,4 +2,4 @@
 
 ```bash
 docker network create my-network
-```
+```{{exec}}
