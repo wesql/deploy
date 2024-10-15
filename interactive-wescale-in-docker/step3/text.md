@@ -10,6 +10,10 @@ docker run -itd --name wesql-server \
   -e MYSQL_CUSTOM_CONFIG="[mysqld]\n\
   port=3306\n\
   log-bin=binlog\n\
+  gtid_mode=ON\n\
+  enforce_gtid_consistency=ON\n\
+  log_slave_updates=ON\n\
+  binlog_format=ROW\n\
   objectstore_provider='aws'\n\
   objectstore_region='us-west-1'\n\
   objectstore_bucket='wesql-storage'\n\
