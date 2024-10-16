@@ -2,7 +2,7 @@
   path: /spec/template/spec/containers/-
   value:
     name: vttablet
-    image: apecloud/apecloud-mysql-scale:0.3.0-alpha26
+    image: apecloud/apecloud-mysql-scale:0.3.0-alpha33
     imagePullPolicy: IfNotPresent
     env:
       - name: KB_POD_NAME
