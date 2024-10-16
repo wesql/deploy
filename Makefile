@@ -13,6 +13,21 @@ build:
 	kubectl kustomize overlays-wescale-local-path 		> artifact/wescale-local-path.yaml
 	kubectl kustomize overlays-wescale-killercoda 		> artifact/wescale-killercoda.yaml
 
-
 clean:
 	rm -rf artifact/*.yaml
+
+
+WESQL_SERVER_TAG ?= 8.0.35-6.alpha10.20240918.g18ad68b.25
+WESCALE_TAG ?= 0.3.0
+build-wescale-standard:
+	@kubectl kustomize overlays-wescale-standard-tag 		> artifact/wescale-standard-tag-template.yaml
+
+	@sed \
+		-e 's|$${WESQL_SERVER_TAG}|$(WESQL_SERVER_TAG)|g' \
+        -e 's|$${WESCALE_TAG}|$(WESCALE_TAG)|g' \
+		artifact/wescale-standard-tag-template.yaml > artifact/wescale-standard-tag.yaml
+
+	kubectl apply -f artifact/wescale-standard-tag.yaml
+
+clean-wescale-standard:
+	kubectl delete -f artifact/wescale-standard-tag.yaml
