@@ -39,9 +39,8 @@ docker network create my-network
 docker run -itd --name $CONTAINER_NAME \
   --network my-network \
   -p $HOST_PORT:$CONTAINER_PORT \
-  -v "$DATA_DIR/data":/data/mysql/data \
-  -v "$DATA_DIR/log":/data/mysql/log \
-  -v "$CONFIG_FILE":/etc/mysql/conf.d/my.cnf \
+  -v "$DATA_DIR":/data/mysql \
+  -v "$CONFIG_FILE":/etc/my.cnf \
   -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
   -e MYSQL_ROOT_HOST="$MYSQL_ROOT_HOST" \
   $IMG
