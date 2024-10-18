@@ -111,7 +111,6 @@ data:
     auto_scale_logger_node_stateful_set_name=mycluster-wesql-1,mycluster-wesql-2
   vttablet.cnf: |-
     [vttablet]
-    v=100
     health_check_interval=1s
     shard_sync_retry_delay=1s
     remote_operation_timeout=1s
@@ -215,6 +214,7 @@ data:
     su vitess <<EOF
     exec vtgate \
       $TOPOLOGY_FLAGS \
+      --v=100 \
       --alsologtostderr \
       --log_dir $VTDATAROOT \
       --log_queries_to_file $VTDATAROOT/vtgate_querylog.txt \
@@ -262,6 +262,7 @@ data:
     $topology_fags \
     --alsologtostderr \
     --log_dir $VTDATAROOT \
+    --v=100 \
     --log_queries_to_file $VTDATAROOT/$tablet_logfile \
     --tablet-path $alias \
     --tablet_hostname "$tablet_hostname" \

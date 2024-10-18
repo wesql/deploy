@@ -6,7 +6,6 @@ metadata:
 data:
   vttablet.cnf: |-
     [vttablet]
-    v=100
     health_check_interval=1s
     shard_sync_retry_delay=1s
     remote_operation_timeout=1s

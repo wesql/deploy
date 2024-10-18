@@ -84,6 +84,7 @@ data:
     su vitess <<EOF
     exec vtgate \
       $TOPOLOGY_FLAGS \
+      --v=100 \
       --alsologtostderr \
       --log_dir $VTDATAROOT \
       --log_queries_to_file $VTDATAROOT/vtgate_querylog.txt \
@@ -131,6 +132,7 @@ data:
     $topology_fags \
     --alsologtostderr \
     --log_dir $VTDATAROOT \
+    --v=100 \
     --log_queries_to_file $VTDATAROOT/$tablet_logfile \
     --tablet-path $alias \
     --tablet_hostname "$tablet_hostname" \
