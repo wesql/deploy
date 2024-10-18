@@ -25,5 +25,5 @@ data:
     log_slave_updates=ON
     binlog_format=ROW
     skip_name_resolve=ON
-  EOF
+EOF
 ```{{copy}}
