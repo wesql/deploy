@@ -6,6 +6,7 @@ metadata:
 data:
   vttablet.cnf: |-
     [vttablet]
+    v=100
     health_check_interval=1s
     shard_sync_retry_delay=1s
     remote_operation_timeout=1s
@@ -43,6 +44,7 @@ data:
     non_transactional_dml_batch_size_threshold_ratio=0.5
   vtgate.cnf: |-
     [vtgate]
+    v=100
     gateway_initial_tablet_timeout=30s
     healthcheck_timeout=2s
     srv_topo_timeout=1s
