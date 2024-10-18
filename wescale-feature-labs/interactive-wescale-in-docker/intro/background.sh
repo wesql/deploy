@@ -30,7 +30,7 @@ EOL
 fi
 
 # 设置目录权限
-chmod -R 755 "$DATA_DIR"
+chmod -R 777 "$DATA_DIR"
 
 docker network create my-network
 
