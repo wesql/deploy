@@ -31,6 +31,7 @@ fi
 
 # 设置目录权限
 chmod -R 777 "$DATA_DIR"
+chmod 644 "$CONFIG_FILE"
 
 docker network create my-network
 
