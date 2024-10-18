@@ -34,6 +34,9 @@ chmod -R 755 "$DATA_DIR"
 
 docker network create my-network
 
+docker pull mysql &
+docker pull apecloud/apecloud-mysql-scale:0.3.1 &
+
 # 运行 Docker 容器
 docker run -itd --name $CONTAINER_NAME \
   --network my-network \
