@@ -17,6 +17,6 @@
     }
   },
   "backend": {
-    "imageid": "ubuntu"
+    "imageid": "apecloud/apecloud-mysql-scale:0.3.1"
   }
 }
