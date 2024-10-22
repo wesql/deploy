@@ -4,7 +4,7 @@
   "details": {
     "intro": {
       "title": "Intro",
-      "text": "intro/text.html"
+      "text": "intro/text.mdx"
     },
     "steps": [
       {
