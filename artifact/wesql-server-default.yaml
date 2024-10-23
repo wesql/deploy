@@ -51,8 +51,8 @@ spec:
             secretKeyRef:
               key: MYSQL_ROOT_PASSWORD
               name: wesql-server-secret
-        - name: WESQL_CLUSTER_MEMBERS
-          value: mycluster-wesql-0-0.mycluster-wesql-headless:13306;mycluster-wesql-1-0.mycluster-wesql-headless:13306;mycluster-wesql-2-0.mycluster-wesql-headless:13306
+        - name: WESQL_CLUSTER_MEMBER
+          value: mycluster-wesql-0-0.mycluster-wesql-headless:13306
         - name: WESQL_CLUSTER_MEMBER_INDEX
           value: "0"
         - name: MYSQL_CUSTOM_CONFIG
@@ -131,8 +131,8 @@ spec:
       - env:
         - name: WESQL_LOGGER_MODE
           value: "1"
-        - name: WESQL_CLUSTER_MEMBERS
-          value: mycluster-wesql-0-0.mycluster-wesql-headless:13306;mycluster-wesql-1-0.mycluster-wesql-headless:13306;mycluster-wesql-2-0.mycluster-wesql-headless:13306
+        - name: WESQL_CLUSTER_MEMBER
+          value: mycluster-wesql-1-0.mycluster-wesql-headless:13306
         - name: WESQL_CLUSTER_MEMBER_INDEX
           value: "1"
         - name: MYSQL_ROOT_PASSWORD
@@ -216,8 +216,8 @@ spec:
       - env:
         - name: WESQL_LOGGER_MODE
           value: "1"
-        - name: WESQL_CLUSTER_MEMBERS
-          value: mycluster-wesql-0-0.mycluster-wesql-headless:13306;mycluster-wesql-1-0.mycluster-wesql-headless:13306;mycluster-wesql-2-0.mycluster-wesql-headless:13306
+        - name: WESQL_CLUSTER_MEMBER
+          value: mycluster-wesql-2-0.mycluster-wesql-headless:13306
         - name: WESQL_CLUSTER_MEMBER_INDEX
           value: "2"
         - name: MYSQL_ROOT_PASSWORD
