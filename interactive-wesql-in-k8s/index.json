@@ -9,7 +9,6 @@
       {
         "title": "Create the Configuration Files",
         "text": "step1/text.md",
-        "verify": "step1/verify.sh"
       },
       {
         "title": "Create the Configuration Files",
