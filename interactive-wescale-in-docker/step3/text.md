@@ -16,8 +16,8 @@ docker run -itd --network host --name wesql-server \
     -v ~/wesql-local-dir:/data/mysql \
     -e WESQL_CLUSTER_MEMBER='127.0.0.1:13306' \
     -e MYSQL_ROOT_PASSWORD=passwd \
-    --env-file=~/wesql-local-dir/wesql.env \
+    --env-file=./wesql.env \
     apecloud/wesql-server:8.0.35-0.1.0_beta1.g4a5a4eb.32
-```{{copy}}
+```{{exec}}
 
 Each WeSQL server starts two ports: one is port 3306, which provides the MySQL service, and the other is port 13306, which is used for Raft protocol communication between WeSQL servers.

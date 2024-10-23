@@ -38,6 +38,7 @@ while true; do
     fi
 done
 
+echo '\n'
 # Prompt for optional fields
 read -p "Please enter your GitHub username (optional): " GITHUB
 read -p "Please enter your first name (optional): " FIRSTNAME
@@ -85,10 +86,10 @@ AccessKeyId=$(echo "$RESPONSE" | sed -n 's/.*"AccessKeyId": *"\([^"]*\)".*/\1/p'
 SecretAccessKey=$(echo "$RESPONSE" | sed -n 's/.*"SecretAccessKey": *"\([^"]*\)".*/\1/p')
 
 # Hardcode variable names
-S3_BUCKET_NAME="$BucketName"
-AWS_REGION="$Region"
-AWS_ACCESS_KEY_ID="$AccessKeyId"
-AWS_SECRET_ACCESS_KEY="$SecretAccessKey"
+S3_BUCKET_NAME=$BucketName
+AWS_REGION=$Region
+AWS_ACCESS_KEY_ID=$AccessKeyId
+AWS_SECRET_ACCESS_KEY=$SecretAccessKey
 
 # Check if all values were successfully extracted
 if [[ -z "$S3_BUCKET_NAME" || -z "$AWS_REGION" || -z "$AWS_ACCESS_KEY_ID" || -z "$AWS_SECRET_ACCESS_KEY" ]]; then
@@ -106,3 +107,4 @@ WESQL_OBJECTSTORE_SECRET_KEY="$AWS_SECRET_ACCESS_KEY"
 EOF
 
 echo "wesql.env file has been generated."
+echo '\n'
