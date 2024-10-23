@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker inspect my-network
+ls ~/wesql-local-dir/wesql.env
