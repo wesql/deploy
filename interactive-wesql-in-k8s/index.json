@@ -12,18 +12,23 @@
         "verify": "step1/verify.sh"
       },
       {
-        "title": "Create the Secret",
+        "title": "Create the Configuration Files",
         "text": "step2/text.md",
         "verify": "step2/verify.sh"
       },
       {
-        "title": "Deploy the WeSQL-Server and WeScale Cluster",
+        "title": "Create the Secret",
         "text": "step3/text.md",
         "verify": "step3/verify.sh"
       },
       {
+        "title": "Deploy the WeSQL-Server and WeScale Cluster",
+        "text": "step4/text.md",
+        "verify": "step4/verify.sh"
+      },
+      {
         "title": "Connect to the WeScale Cluster",
-        "text": "step4/text.md"
+        "text": "step5/text.md"
       }
     ],
     "finish": {

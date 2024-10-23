@@ -1,29 +1,15 @@
-### 1. Create the Configuration Files
+### 1. Generate the S3 Bucket
 
-Use kubectl to create a ConfigMap with your WeSQL-Server configuration.
+The WeSQL Data Node uses an S3 bucket to store data. We will generate an S3 bucket using a script provided by WeScale.
 
-You need to replace the **objectstore_provider**, **objectstore_region**, and **objectstore_bucket** with your AWS S3 bucket info.
-Please make sure the bucket is empty before you proceed.
+```bash
+cd ~/wesql-local-dir && ~/generate_s3_bucket.sh && cat ~/wesql-local-dir/wesql.env
+```{{exec}}
 
-```yaml{9-11}
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: wesql-server-config
-data:
-  MYSQL_CUSTOM_CONFIG: |
-    [mysqld]
-    objectstore_provider=aws
-    objectstore_region=us-west-1
-    objectstore_bucket=wesql-storage
-    datadir=/data/mysql/data
-    log-error=/data/mysql/log/mysqld-error.log
-    log-bin=binlog
-    gtid_mode=ON
-    enforce_gtid_consistency=ON
-    log_slave_updates=ON
-    binlog_format=ROW
-    skip_name_resolve=ON
-EOF
-```{{copy}}
+Export the environment variables from the `wesql.env` file.
+
+```bash
+set -o allexport
+source ~/wesql-local-dir/wesql.env
+set +o allexport
+```{{exec}}

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-kubectl get secret wesql-server-secret
+kubectl get configmap wesql-server-config

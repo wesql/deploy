@@ -1,12 +1,30 @@
-### 2. Create the Secret
+### 1. Create the Configuration Files
 
-Use kubectl to create a secret with your AWS S3 credentials. Replace **YOUR_S3_ACCESS_KEY**, **YOUR_S3_SECRET_KEY**, and **YOUR_MYSQL_ROOT_PASSWORD** with your actual AWS S3 credentials and desired MySQL root password.
+Use kubectl to create a ConfigMap with your WeSQL-Server configuration.
 
-```bash{4-6}
-kubectl create secret generic wesql-server-secret \
-  --namespace default \
-  --type Opaque \
-  --from-literal=WESQL_OBJECTSTORE_ACCESS_KEY=${YOUR_S3_ACCESS_KEY} \
-  --from-literal=WESQL_OBJECTSTORE_SECRET_KEY=${YOUR_S3_SECRET_KEY} \
-  --from-literal=MYSQL_ROOT_PASSWORD=${YOUR_MYSQL_ROOT_PASSWORD}
-```
+
+
+```yaml{9-11}
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wesql-server-config
+data:
+  MYSQL_CUSTOM_CONFIG: |
+    [mysqld]
+    objectstore_provider=aws
+    objectstore_region=${WESQL_OBJECTSTORE_REGION}
+    objectstore_bucket=${WESQL_OBJECTSTORE_BUCKET}
+    repo_objectstore_id=sysbench
+    branch_objectstore_id=main
+    datadir=/data/mysql/data
+    log-error=/data/mysql/log/mysqld-error.log
+    log-bin=binlog
+    gtid_mode=ON
+    enforce_gtid_consistency=ON
+    log_slave_updates=ON
+    binlog_format=ROW
+    skip_name_resolve=ON
+EOF
+```{{exec}}

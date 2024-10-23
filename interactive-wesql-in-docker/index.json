@@ -12,7 +12,7 @@
         "verify": "step1/verify.sh"
       },
       {
-        "title": "Create a Docker network for inter-node communication",
+        "title": "Generate the S3 Bucket",
         "text": "step2/text.md",
         "verify": "step2/verify.sh"
       },
