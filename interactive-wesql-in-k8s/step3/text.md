@@ -9,4 +9,4 @@ kubectl create secret generic wesql-server-secret \
   --from-literal=WESQL_OBJECTSTORE_ACCESS_KEY=${WESQL_OBJECTSTORE_ACCESS_KEY} \
   --from-literal=WESQL_OBJECTSTORE_SECRET_KEY=${WESQL_OBJECTSTORE_SECRET_KEY} \
   --from-literal=MYSQL_ROOT_PASSWORD=passwd
-```
+```{{exec}}
