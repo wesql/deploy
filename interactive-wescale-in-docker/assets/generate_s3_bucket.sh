@@ -1,6 +1,8 @@
 #!/bin/bash
 
 echo ''
+echo 'We will now generate an S3 bucket for you to use as an object store.'
+echo ''
 
 # Function: Validate email format using regular expressions
 validate_email() {
