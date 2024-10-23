@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo ''
+
 # Function: Validate email format using regular expressions
 validate_email() {
     local email_regex="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
@@ -38,7 +40,6 @@ while true; do
     fi
 done
 
-echo '\n'
 # Prompt for optional fields
 read -p "Please enter your GitHub username (optional): " GITHUB
 read -p "Please enter your first name (optional): " FIRSTNAME
@@ -85,7 +86,7 @@ Region=$(echo "$RESPONSE" | sed -n 's/.*"Region": *"\([^"]*\)".*/\1/p')
 AccessKeyId=$(echo "$RESPONSE" | sed -n 's/.*"AccessKeyId": *"\([^"]*\)".*/\1/p')
 SecretAccessKey=$(echo "$RESPONSE" | sed -n 's/.*"SecretAccessKey": *"\([^"]*\)".*/\1/p')
 
-# Hardcode variable names
+# Hardcode variable names without quotes
 S3_BUCKET_NAME=$BucketName
 AWS_REGION=$Region
 AWS_ACCESS_KEY_ID=$AccessKeyId
@@ -97,14 +98,14 @@ if [[ -z "$S3_BUCKET_NAME" || -z "$AWS_REGION" || -z "$AWS_ACCESS_KEY_ID" || -z 
     exit 1
 fi
 
-# Write to wesql.env file
+# Write to wesql.env file without double quotes
 echo "Generating wesql.env file..."
 cat > wesql.env <<EOF
-WESQL_OBJECTSTORE_BUCKET="$S3_BUCKET_NAME"
-WESQL_OBJECTSTORE_REGION="$AWS_REGION"
-WESQL_OBJECTSTORE_ACCESS_KEY="$AWS_ACCESS_KEY_ID"
-WESQL_OBJECTSTORE_SECRET_KEY="$AWS_SECRET_ACCESS_KEY"
+WESQL_OBJECTSTORE_BUCKET=$S3_BUCKET_NAME
+WESQL_OBJECTSTORE_REGION=$AWS_REGION
+WESQL_OBJECTSTORE_ACCESS_KEY=$AWS_ACCESS_KEY_ID
+WESQL_OBJECTSTORE_SECRET_KEY=$AWS_SECRET_ACCESS_KEY
 EOF
 
 echo "wesql.env file has been generated."
-echo '\n'
+echo ''
