@@ -36,7 +36,7 @@
     },
     "assets": {
       "host01": [
-        {"file": "generate_s3_bucket.sh", "target": "~/", "chmod": "+x"}
+        {"file": "generate_s3_bucket.sh", "target": "/", "chmod": "+x"}
       ]
     }
   },
