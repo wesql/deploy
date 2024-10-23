@@ -20,7 +20,7 @@ clean:
 
 
 WESQL_SERVER_TAG ?= 8.0.35-6.alpha10.20240918.g18ad68b.25
-WESCALE_TAG ?= 0.3.1
+WESCALE_TAG ?= 0.3.3
 build-wescale-standard:
 	@kubectl kustomize overlays-wescale-standard-tag 		> artifact/wescale-standard-tag-template.yaml
 
