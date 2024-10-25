@@ -4,16 +4,22 @@
   "details": {
     "intro": {
       "title": "Intro",
-      "text": "intro/text.md"
+      "text": "intro/text.md",
+      "foreground": "intro/foreground.sh",
+      "background": "intro/background.sh"
     },
     "steps": [
       {
         "title": "",
-        "text": "text1.md"
+        "text": "step1/text.md"
       },
       {
         "title": "",
-        "text": "text2.md"
+        "text": "step2/text.md"
+      },
+      {
+        "title": "",
+        "text": "step3/text.md"
       }
     ],
     "finish": {

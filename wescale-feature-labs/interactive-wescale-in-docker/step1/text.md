@@ -41,11 +41,11 @@ CREATE DATABASE IF NOT EXISTS d1;
 
 USE d1;
 
-CREATE TABLE `customers` (
-                             `customer_id` int NOT NULL AUTO_INCREMENT,
-                             `name` varchar(255) NOT NULL,
-                             `email` varchar(255) NOT NULL,
-                             PRIMARY KEY (`customer_id`)
+CREATE TABLE customers (
+                          customer_id int NOT NULL AUTO_INCREMENT,
+                          name varchar(255) NOT NULL,
+                          email varchar(255) NOT NULL,
+                          PRIMARY KEY (customer_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
@@ -55,14 +55,14 @@ Let's insert some sample data into the `customers` table. We use a cross join to
 
 ```sql
 INSERT INTO customers (name, email)
-SELECT
+SELECT 
     CONCAT(ROW_NUMBER() OVER (), '_customer'),
     CONCAT(ROW_NUMBER() OVER (), '_customer@example.com')
 FROM (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x10
-         CROSS JOIN (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x100
-         CROSS JOIN (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x1000
-         CROSS JOIN (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x10000
-         CROSS JOIN (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x100000;
+CROSS JOIN (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x100
+CROSS JOIN (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x1000
+CROSS JOIN (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x10000
+CROSS JOIN (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) x100000;
 ```
 
 ## Step3: Performing the Online Schema Change
@@ -99,7 +99,7 @@ mysql> SHOW SCHEMA_MIGRATION LIKE 'd2bf1bba_92a5_11ef_8f37_fac873d3e6cd'\G
                    mysql_schema: d1
                     mysql_table: customers
             migration_statement: alter table d1.customers add column phone_number VARCHAR(20)
-    strategy: online
+                       strategy: online
                         options:
                 added_timestamp: 2024-10-25 07:50:37
             requested_timestamp: 2024-10-25 07:50:37
@@ -118,7 +118,7 @@ mysql> SHOW SCHEMA_MIGRATION LIKE 'd2bf1bba_92a5_11ef_8f37_fac873d3e6cd'\G
                        progress: 100
               migration_context: vtgate:bbcd8b3a-92a5-11ef-8f37-fac873d3e6cd,online_ddl:d2bf19d0-92a5-11ef-8f37-fac873d3e6cd
                      ddl_action: alter
-message:
+                        message:
                     eta_seconds: 0
                     rows_copied: 100000
                      table_rows: 99870
@@ -201,19 +201,19 @@ ALTER SCHEMA_MIGRATION CANCEL ALL;
 WeScale's Online DDL feature allows you to perform schema migrations with minimal impact on your database's performance and availability. Here's a simplified explanation of how it works:
 
 1. **Copying Existing Data (Initial Data Copy)**:
-    - When you initiate an Online DDL operation, WeScale creates a **shadow table** that includes the new schema changes.
-    - The existing data from the original table is **copied** to the shadow table in the background.
-    - This copying process is non-blocking, meaning it doesn't lock the original table, so your applications can continue to read from and write to it without interruption.
+   - When you initiate an Online DDL operation, WeScale creates a **shadow table** that includes the new schema changes.
+   - The existing data from the original table is **copied** to the shadow table in the background.
+   - This copying process is non-blocking, meaning it doesn't lock the original table, so your applications can continue to read from and write to it without interruption.
 
 2. **Capturing Incremental Changes (Ongoing Data Copy)**:
-    - While the initial data copy is underway, any new changes (inserts, updates, deletes) made to the original table are **captured**.
-    - These incremental changes are continuously **applied** to the shadow table to keep it in sync with the original table.
-    - This ensures that no data is lost and the shadow table remains an up-to-date replica.
+   - While the initial data copy is underway, any new changes (inserts, updates, deletes) made to the original table are **captured**.
+   - These incremental changes are continuously **applied** to the shadow table to keep it in sync with the original table.
+   - This ensures that no data is lost and the shadow table remains an up-to-date replica.
 
 3. **Cutover (Switching Tables)**:
-    - Once the shadow table has caught up with all the changes and is fully synchronized with the original table, WeScale prepares for the **cutover** phase.
-    - During the cutover, the original table is briefly locked to ensure data consistency.
-    - The shadow table is then **swapped** in place of the original table. This operation is typically very fast, minimizing the lock time.
-    - After the swap, the new table (with the schema changes) becomes active, and the original table is cleaned up.
+   - Once the shadow table has caught up with all the changes and is fully synchronized with the original table, WeScale prepares for the **cutover** phase.
+   - During the cutover, the original table is briefly locked to ensure data consistency.
+   - The shadow table is then **swapped** in place of the original table. This operation is typically very fast, minimizing the lock time.
+   - After the swap, the new table (with the schema changes) becomes active, and the original table is cleaned up.
 
 By following this process, WeScale ensures that schema migrations are **non-disruptive** and **efficient**, allowing you to implement changes without significant downtime or performance hits. The combination of initial data copy, incremental change capture, and quick cutover makes it possible to maintain high availability during schema migrations.
