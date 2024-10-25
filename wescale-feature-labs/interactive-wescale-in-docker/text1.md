@@ -42,10 +42,10 @@ CREATE DATABASE IF NOT EXISTS d1;
 USE d1;
 
 CREATE TABLE customers (
-                            customer_id int NOT NULL AUTO_INCREMENT,
-                            name varchar(255) NOT NULL,
-                            email varchar(255) NOT NULL,
-                            PRIMARY KEY (customer_id)
+                          customer_id int NOT NULL AUTO_INCREMENT,
+                          name varchar(255) NOT NULL,
+                          email varchar(255) NOT NULL,
+                          PRIMARY KEY (customer_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
@@ -99,7 +99,7 @@ mysql> SHOW SCHEMA_MIGRATION LIKE 'd2bf1bba_92a5_11ef_8f37_fac873d3e6cd'\G
                    mysql_schema: d1
                     mysql_table: customers
             migration_statement: alter table d1.customers add column phone_number VARCHAR(20)
-   strategy: online
+                       strategy: online
                         options:
                 added_timestamp: 2024-10-25 07:50:37
             requested_timestamp: 2024-10-25 07:50:37
@@ -118,7 +118,7 @@ mysql> SHOW SCHEMA_MIGRATION LIKE 'd2bf1bba_92a5_11ef_8f37_fac873d3e6cd'\G
                        progress: 100
               migration_context: vtgate:bbcd8b3a-92a5-11ef-8f37-fac873d3e6cd,online_ddl:d2bf19d0-92a5-11ef-8f37-fac873d3e6cd
                      ddl_action: alter
-message:
+                        message:
                     eta_seconds: 0
                     rows_copied: 100000
                      table_rows: 99870
