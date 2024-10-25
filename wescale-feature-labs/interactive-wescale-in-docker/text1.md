@@ -41,11 +41,11 @@ CREATE DATABASE IF NOT EXISTS d1;
 
 USE d1;
 
-CREATE TABLE `customers` (
-                            `customer_id` int NOT NULL AUTO_INCREMENT,
-                            `name` varchar(255) NOT NULL,
-                            `email` varchar(255) NOT NULL,
-                            PRIMARY KEY (`customer_id`)
+CREATE TABLE customers (
+                            customer_id int NOT NULL AUTO_INCREMENT,
+                            name varchar(255) NOT NULL,
+                            email varchar(255) NOT NULL,
+                            PRIMARY KEY (customer_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
