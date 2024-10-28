@@ -31,8 +31,6 @@ spec:
                 key: MYSQL_ROOT_PASSWORD
           - name: WESQL_CLUSTER_MEMBER
             value: mycluster-wesql-0-0.mycluster-wesql-headless:13306
-          - name: WESQL_CLUSTER_MEMBER_INDEX
-            value: "0"
           - name: MYSQL_CUSTOM_CONFIG
             valueFrom:
               configMapKeyRef:
