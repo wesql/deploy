@@ -9,12 +9,12 @@ kubectl wait --for=condition=available deployment/wesql-vtgate --timeout=500s
 You can connect to WeSQL-Server cluster using the following command:
 
 ```bash
-kubectl exec -it mycluster-wesql-0-0 -- mysql -uroot -ppasswd
+kubectl exec -it mycluster-wesql-0-0 -- mysql -uroot -ppasswd -c
 ```{{exec}}
 
 You can also connect to WeSQL-Server cluster using the following command:
 
 ```bash
-kubectl exec -it $(kubectl get pods -l app.kubernetes.io/name=wesql-vtgate -o jsonpath='{.items[0].metadata.name}') -- mysql -uroot -P15306 -ppasswd
+kubectl exec -it $(kubectl get pods -l app.kubernetes.io/name=wesql-vtgate -o jsonpath='{.items[0].metadata.name}') -- mysql -uroot -P15306 -ppasswd -c
 ```{{exec}}
 
