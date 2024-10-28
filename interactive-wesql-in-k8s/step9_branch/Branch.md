@@ -131,17 +131,17 @@ We need to use `vtctlclient` to execute the `Branch` command.
 If you are using `kubernetes`, you can enter the `wesql-vtcontroller` Pod to run the `vtctlclient` command:
 ```shell
 $ kubectl get po
-NAME                            READY   STATUS    RESTARTS      AGE
-mycluster-wesql-0-0             2/2     Running   0             41m
-mycluster-wesql-1-0             1/1     Running   0             41m
-mycluster-wesql-2-0             1/1     Running   0             41m
-wesql-vtcontroller              2/2     Running   3 (40m ago)   41m
-wesql-vtgate-588f5b4c88-twdfx   1/1     Running   0             41m
+NAME                           READY   STATUS    RESTARTS      AGE
+mycluster-wesql-0-0            2/2     Running   0             25m
+mycluster-wesql-1-0            1/1     Running   1 (22m ago)   25m
+mycluster-wesql-2-0            1/1     Running   1 (22m ago)   25m
+wesql-vtcontroller-0           2/2     Running   0             25m
+wesql-vtgate-87f69955c-h62nx   1/1     Running   0             25m
+wesql-vtgate-87f69955c-t7lbg   1/1     Running   0             25m
 
-$ kubectl exec -it wesql-vtcontroller -c vtctld -- sh
-/vt #
-/vt #   vtctlclient -v
-Version: 16.0.0 (Git revision f8687edb934cbebba354c139f353904cf8a485dc branch 'autoscale-demo') built on Wed Sep 18 11:54:22 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/arm64
+$ kubectl exec -it wesql-vtcontroller-0 -c vtctld -- sh
+/vt #    vtctlclient -v
+WeScale version: 0.3.3 (git revision cb93f4e1dacce0882dde6ec27ee409c011684034 branch 'HEAD') built on Tue Oct 22 03:40:00 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
 ```
 
 If you are using `docker`, you can enter the `wescale` container to run the `vtctlclient` command:
