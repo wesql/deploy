@@ -4,7 +4,7 @@ Use kubectl to create a ConfigMap with your WeSQL-Server configuration.
 
 
 
-```yaml{9-11}
+```yaml
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ConfigMap
