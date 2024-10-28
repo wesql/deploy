@@ -29,6 +29,22 @@
       {
         "title": "Connecting to the Cluster",
         "text": "step5/text.md"
+      },
+      {
+        "title": "",
+        "text": "step6/OnlineDDL.md"
+      },
+      {
+        "title": "",
+        "text": "step7_filters/Filters.md"
+      },
+      {
+        "title": "",
+        "text": "step8_transaction_chopping/Transaction-Chopping.md"
+      },
+      {
+        "title": "",
+        "text": "step9_branch/Branch.md"
       }
     ],
     "finish": {
