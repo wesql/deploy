@@ -1,4 +1,4 @@
-### 5. Connecting to the Cluster
+### Connecting to the Cluster
 
 Wait for the WeSQL-Server cluster's 3306 port and the WeScale cluster's 15306 port to be open by running:
 ```bash

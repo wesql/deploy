@@ -1,4 +1,4 @@
-### 4. Start WeScale Container
+### Start WeScale Container
 
 Once the WeSQL-Server is running, you can start the WeScale container. The WeScale container will connect to the WeSQL-Server and provide the WeScale service.
 

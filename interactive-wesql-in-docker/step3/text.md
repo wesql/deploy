@@ -1,6 +1,13 @@
-### 3. Start WeSQL-Server Data Node
+### Start WeSQL-Server Data Node
 
-In this example, the configuration parameter file is generated using the container environment variable `MYSQL_CUSTOM_CONFIG`. For specific configuration parameters, refer to [WeSQL Documentation](https://wesql.io/docs/usage/configuration).
+The WeSQL Data Node uses an S3 bucket to store data. You can [apply a free S3 Bucket](https://wesql.io/bucket) to use with WeSQL.
+
+```bash
+export WESQL_OBJECTSTORE_BUCKET=<bucket>
+export WESQL_OBJECTSTORE_REGION=<region>
+export WESQL_OBJECTSTORE_ACCESS_KEY=<access-key>
+export WESQL_OBJECTSTORE_SECRET_KEY=<secret-key>
+```{{copy}}
 
 When starting the data node for the first time, the cluster will automatically initialize. If the local directory is empty, it will pull the latest data from S3.
 
@@ -21,7 +28,10 @@ docker run -itd --network host --name wesql-server \
     -v ~/wesql-local-dir:/data/mysql \
     -e WESQL_CLUSTER_MEMBER='127.0.0.1:13306' \
     -e MYSQL_ROOT_PASSWORD=passwd \
-    --env-file=./wesql.env \
+    -e WESQL_OBJECTSTORE_BUCKET=${WESQL_OBJECTSTORE_BUCKET} \
+    -e WESQL_OBJECTSTORE_REGION=${WESQL_OBJECTSTORE_REGION} \
+    -e WESQL_OBJECTSTORE_ACCESS_KEY=${WESQL_OBJECTSTORE_ACCESS_KEY} \
+    -e WESQL_OBJECTSTORE_SECRET_KEY=${WESQL_OBJECTSTORE_SECRET_KEY} \
     apecloud/wesql-server:8.0.35-0.1.0_beta1.g4a5a4eb.33
 ```{{exec}}
 

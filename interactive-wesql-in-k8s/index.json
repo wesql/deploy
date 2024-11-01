@@ -48,11 +48,6 @@
     ],
     "finish": {
       "text": "finish.md"
-    },
-    "assets": {
-      "host01": [
-        {"file": "generate_s3_bucket.sh", "target": "~/", "chmod": "+x"}
-      ]
     }
   },
   "backend": {

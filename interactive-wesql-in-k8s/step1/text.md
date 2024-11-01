@@ -1,15 +1,10 @@
 ### 1. Generate the S3 Bucket
 
-The WeSQL Data Node uses an S3 bucket to store data. We will generate an S3 bucket using a script provided by WeScale.
+The WeSQL Data Node uses an S3 bucket to store data. You can [apply a free S3 Bucket](https://wesql.io/bucket) to use with WeSQL.
 
 ```bash
-~/generate_s3_bucket.sh && cat ./wesql.env
-```{{exec}}
-
-Export the environment variables from the `wesql.env` file.
-
-```bash
-set -o allexport
-source ./wesql.env
-set +o allexport
-```{{exec}}
+export WESQL_OBJECTSTORE_BUCKET=<bucket>
+export WESQL_OBJECTSTORE_REGION=<region>
+export WESQL_OBJECTSTORE_ACCESS_KEY=<access-key>
+export WESQL_OBJECTSTORE_SECRET_KEY=<secret-key>
+```{{copy}}
