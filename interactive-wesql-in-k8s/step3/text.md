@@ -1,4 +1,4 @@
-### 2. Create the Secret
+### Create the Secret
 
 Use kubectl to create a secret with your AWS S3 credentials. Replace **YOUR_S3_ACCESS_KEY**, **YOUR_S3_SECRET_KEY**, and **YOUR_MYSQL_ROOT_PASSWORD** with your actual AWS S3 credentials and desired MySQL root password.
 

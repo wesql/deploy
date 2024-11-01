@@ -1,4 +1,4 @@
-### 4. Wait for Start And Connect to the WeScale Cluster
+### Wait for Start And Connect to the WeScale Cluster
 
 Wait for wesql-vtgate deployment's 15306 port to be open by running, this may take a few minutes:
 

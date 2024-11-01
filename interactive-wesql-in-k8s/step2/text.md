@@ -1,4 +1,4 @@
-### 1. Create the Configuration Files
+### Create the Configuration Files
 
 Use kubectl to create a ConfigMap with your WeSQL-Server configuration.
 

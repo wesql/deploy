@@ -1,4 +1,4 @@
-### 1. Generate the S3 Bucket
+### Generate the S3 Bucket
 
 The WeSQL Data Node uses an S3 bucket to store data. You can [apply a free S3 Bucket](https://wesql.io/bucket) to use with WeSQL.
 

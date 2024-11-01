@@ -1,5 +1,5 @@
 {
-  "title": "WeScale in Docker",
+  "title": "WeSQL in Docker",
   "description": "This tutorial will guide you through the process of deploying a WeScale cluster in Docker.",
   "details": {
     "intro": {

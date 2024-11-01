@@ -1,4 +1,4 @@
-### 3. Deploy the WeSQL-Server And WeScale Cluster
+### Deploy the WeSQL-Server And WeScale Cluster
 
 Deploy the WeSQL-Server and WeScale cluster by running:
 
