@@ -1,0 +1,58 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../wescale
+
+images:
+  - name: apecloud/wesql-server
+    newTag: 8.0.35-0.1.0_beta1.g4a5a4eb.33
+  - name: apecloud/apecloud-mysql-scale
+    newTag: 0.3.3
+
+patches:
+  - target:
+      kind: StatefulSet
+      labelSelector: "app.kubernetes.io/storageclass=standard"
+    patch: |
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: mycluster-wesql-0
+      spec:
+        template:
+          spec:
+            containers:
+              - name: mysql
+                resources:
+                  limits:
+                    cpu: "0"
+                    memory: "0"
+                  requests:
+                    cpu: "0"
+                    memory: "0"
+        volumeClaimTemplates:
+          - metadata:
+              name: data
+            spec:
+              accessModes: [ "ReadWriteOnce" ]
+              resources:
+                requests:
+                  storage: 500Mi
+  - target:
+      kind: StatefulSet
+      labelSelector: "app.kubernetes.io/name=wesql-vtcontroller"
+    patch: |
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: wesql-vtcontroller
+      spec:
+        volumeClaimTemplates:
+          - metadata:
+              name: data
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 100Mi

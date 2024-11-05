@@ -14,6 +14,7 @@ build:
 	kubectl kustomize overlays-wescale-local-path 		> artifact/wescale-local-path.yaml
 	kubectl kustomize overlays-wescale-killercoda 		> artifact/wescale-killercoda.yaml
 	kubectl kustomize overlays-wescale 					> artifact/wescale.yaml
+	kubectl kustomize overlays-wescale-ci 				> artifact/wescale-ci.yaml
 
 clean:
 	rm -rf artifact/*.yaml
