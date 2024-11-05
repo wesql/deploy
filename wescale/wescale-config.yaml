@@ -20,6 +20,9 @@ data:
     queryserver_config_transaction_cap=20
     queryserver_config_pool_size=16
     queryserver_config_stream_pool_size=4
+    dba_pool_size=5
+    queryserver_pool_autoscale_enable=true
+    queryserver_pool_autoscale_tx_pool_percentage=70
     non_transactional_dml_database_pool_size=3
     non_transactional_dml_default_batch_size=2000
     non_transactional_dml_default_batch_interval=1
@@ -55,9 +58,6 @@ data:
     mysql_server_ssl_ca=
     mysql_server_ssl_cert=
     mysql_server_ssl_key=
-    
-    queryserver_pool_autoscale_enable=true
-    queryserver_pool_autoscale_tx_pool_percentage=70
     
     enable_auto_suspend=false
     auto_suspend_timeout=5m
