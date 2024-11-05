@@ -30,7 +30,6 @@ data:
     non_transactional_dml_batch_size_threshold_ratio=0.5
   vtgate.cnf: |-
     [vtgate]
-    v=100
     gateway_initial_tablet_timeout=3s
     healthcheck_timeout=2s
     srv_topo_timeout=1s
