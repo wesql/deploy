@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana
+          env:
+            - name: GF_AUTH_ANONYMOUS_ENABLED
+              value: "true"
+            - name: GF_AUTH_ANONYMOUS_ORG_ROLE
+              value: "Admin"
+            - name: GF_AUTH_DISABLE_LOGIN_FORM
+              value: "true"
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: datasource-volume
+              mountPath: /etc/grafana/provisioning/datasources/
+            - name: dashboard-volume
+              mountPath: /etc/grafana/provisioning/dashboards/
+      volumes:
+        - name: datasource-volume
+          configMap:
+            name: wesql-grafana-config
+            items:
+              - key: prometheus-datasource.yaml
+                path: prometheus-datasource.yaml
+        - name: dashboard-volume
+          configMap:
+            name: wesql-grafana-config
+            items:
+              - key: dashboards.yaml
+                path: dashboards.yaml
+              - key: performance_overview.json
+                path: performance_overview.json
