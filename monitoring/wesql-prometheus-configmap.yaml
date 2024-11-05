@@ -3,15 +3,19 @@ data:
   prometheus.yml: |-
     global:
       scrape_interval: 15s
-
     rule_files:
       - "prometheus_rules.yaml"
-
     scrape_configs:
       - job_name: 'vitess-vtgate'
-        
-        static_configs:
-          - targets: ['wesql-vtgate-headless:15001']
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_name]
+            regex: wesql-vtgate-headless
+            action: keep
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            regex: webport
+            action: keep
 
       - job_name: 'vitess-vttablet'
         static_configs:

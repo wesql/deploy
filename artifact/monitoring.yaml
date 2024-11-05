@@ -1,4 +1,49 @@
 apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/proxy
+  - services
+  - endpoints
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - extensions
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+- kind: ServiceAccount
+  name: prometheus
+  namespace: default
+---
+apiVersion: v1
 data:
   dashboards.yaml: |-
     apiVersion: 1
@@ -4133,11 +4178,33 @@ metadata:
 ---
 apiVersion: v1
 data:
-  prometheus.yml: "global:\n  scrape_interval: 15s\n\nrule_files:\n  - \"prometheus_rules.yaml\"\n\nscrape_configs:\n
-    \ - job_name: 'vitess-vtgate'\n    \n    static_configs:\n      - targets: ['wesql-vtgate-headless:15001']\n\n
-    \ - job_name: 'vitess-vttablet'\n    static_configs:\n      - targets: ['mycluster-wesql-headless:15100']\n\n#
-    \ - job_name: 'mysql'\n#    static_configs:\n#      - targets: ['<MySQL_HOST>:<MySQL_PORT>']\n\n
-    \   metrics_path: '/metrics'\n    scheme: 'http'"
+  prometheus.yml: |-
+    global:
+      scrape_interval: 15s
+    rule_files:
+      - "prometheus_rules.yaml"
+    scrape_configs:
+      - job_name: 'vitess-vtgate'
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_name]
+            regex: wesql-vtgate-headless
+            action: keep
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            regex: webport
+            action: keep
+
+      - job_name: 'vitess-vttablet'
+        static_configs:
+          - targets: ['mycluster-wesql-headless:15100']
+
+    #  - job_name: 'mysql'
+    #    static_configs:
+    #      - targets: ['<MySQL_HOST>:<MySQL_PORT>']
+
+        metrics_path: '/metrics'
+        scheme: 'http'
   prometheus_rules.yaml: |
     "groups":
       - "name": "vitess_mixin_1"
@@ -4362,6 +4429,7 @@ spec:
         volumeMounts:
         - mountPath: /etc/prometheus/
           name: config-volume
+      serviceAccountName: prometheus
       volumes:
       - configMap:
           name: wesql-prometheus-config

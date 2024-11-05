@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./grafana-deployment.yaml
   - ./grafana-service.yaml
+  - ./prometheus-rbac.yaml
   - ./prometheus-deployment.yaml
   - ./prometheus-service.yaml
   - ./wesql-grafana-configmap.yaml
