@@ -16,5 +16,7 @@ build:
 	kubectl kustomize overlays-wescale 					> artifact/wescale.yaml
 	kubectl kustomize overlays-wescale-ci 				> artifact/wescale-ci.yaml
 
+	kubectl kustomize monitoring 						> artifact/monitoring.yaml
+
 clean:
 	rm -rf artifact/*.yaml

@@ -9,6 +9,7 @@ data:
 
     scrape_configs:
       - job_name: 'vitess-vtgate'
+        
         static_configs:
           - targets: ['wesql-vtgate-headless:15001']
 
