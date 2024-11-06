@@ -26,6 +26,8 @@ mysql> SELECT @@ddl_strategy;
 | online         |
 +----------------+
 1 row in set (0.01 sec)
+
+-- To Disable Online DDL, You can set the ddl_strategy back to 'direct'
 ```
 
 > **Notice**: If you see an "Unknown system variable" error, you are not connected to the WeScale endpoint. Please connect to the WeScale endpoint and try again.
