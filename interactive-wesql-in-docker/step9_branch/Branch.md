@@ -37,30 +37,30 @@ CREATE DATABASE IF NOT EXISTS branch_source;
 USE branch_source;
 
 CREATE TABLE IF NOT EXISTS branch_source.user (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-  ) ENGINE=InnoDB;
-  
+                                                  id INT AUTO_INCREMENT PRIMARY KEY,
+                                                  name VARCHAR(255) NOT NULL
+    ) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS branch_source.customer (
-    customer_id BIGINT NOT NULL AUTO_INCREMENT,
-    email VARCHAR(128),
+                                                      customer_id BIGINT NOT NULL AUTO_INCREMENT,
+                                                      email VARCHAR(128),
     PRIMARY KEY(customer_id)
-  ) ENGINE=InnoDB;
+    ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS branch_source.product (
-    sku VARCHAR(128),
+                                                     sku VARCHAR(128),
     description VARCHAR(128),
     price BIGINT,
     PRIMARY KEY(sku)
-  ) ENGINE=InnoDB;
-  
+    ) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS branch_source.corder (
-    order_id BIGINT NOT NULL AUTO_INCREMENT,
-    customer_id BIGINT,
-    sku VARCHAR(128),
+                                                    order_id BIGINT NOT NULL AUTO_INCREMENT,
+                                                    customer_id BIGINT,
+                                                    sku VARCHAR(128),
     price BIGINT,
     PRIMARY KEY(order_id)
-  ) ENGINE=InnoDB;
+    ) ENGINE=InnoDB;
 ```
 
 ### Insert Sample Data
@@ -71,54 +71,54 @@ You can then insert some sample data into the tables:
 INSERT INTO branch_source.user (name)
 SELECT CONCAT('user_', n)
 FROM (
-    SELECT ROW_NUMBER() OVER () AS n
-    FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) a
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) b
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) c
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) d
-) AS numbers
+         SELECT ROW_NUMBER() OVER () AS n
+         FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) a
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) b
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) c
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) d
+     ) AS numbers
 WHERE n <= 500;
 
 -- Insert data into customer table (200 rows), linking to user table
 INSERT INTO branch_source.customer (email, customer_id)
 SELECT CONCAT('customer_', n, '@example.com'), n
 FROM (
-    SELECT ROW_NUMBER() OVER () AS n
-    FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) a
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) b
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) c
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) d
-) AS numbers
+         SELECT ROW_NUMBER() OVER () AS n
+         FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) a
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) b
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) c
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) d
+     ) AS numbers
 WHERE n <= 200;
 
 -- Insert data into product table (1000 rows)
 INSERT INTO branch_source.product (sku, description, price)
 SELECT CONCAT('sku_', n), CONCAT('product_', n), FLOOR(RAND() * 1000 + 1) -- Random price between 1 and 1000
 FROM (
-    SELECT ROW_NUMBER() OVER () AS n
-    FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) a
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) b
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) c
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) d
-    CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) e
-) AS numbers
+         SELECT ROW_NUMBER() OVER () AS n
+         FROM (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) a
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) b
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) c
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) d
+                  CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4) e
+     ) AS numbers
 WHERE n <= 1000;
 
 -- Insert data into corder table (10000 rows), linking to customer and product tables
 INSERT INTO branch_source.corder (customer_id, sku, price)
 SELECT c.customer_id, p.sku, p.price
 FROM (
-    SELECT ROW_NUMBER() OVER () AS n, customer_id
-    FROM branch_source.customer
-    ORDER BY RAND() -- Randomly select customers
-) c
-JOIN (
+         SELECT ROW_NUMBER() OVER () AS n, customer_id
+         FROM branch_source.customer
+         ORDER BY RAND() -- Randomly select customers
+     ) c
+         JOIN (
     SELECT ROW_NUMBER() OVER () AS n, sku, price
     FROM branch_source.product
     ORDER BY RAND() -- Randomly select products
 ) p ON (c.n % 1000) + 1 = p.n  -- Ensure every product is ordered
-CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) a
-CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) b
+         CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10) a
+         CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) b
 WHERE c.n <= 10000;
 ```
 
@@ -126,22 +126,22 @@ With the tables and data in place, you can now proceed with the Branch feature, 
 
 ### Prepare Branch Command Client
 
-We need to use `vtctlclient` to execute the `Branch` command. 
+We need to use `vtctlclient` to execute the `Branch` command.
 
 If you are using `kubernetes`, you can enter the `wesql-vtcontroller` Pod to run the `vtctlclient` command:
 ```shell
 $ kubectl get po
-NAME                            READY   STATUS    RESTARTS      AGE
-mycluster-wesql-0-0             2/2     Running   0             41m
-mycluster-wesql-1-0             1/1     Running   0             41m
-mycluster-wesql-2-0             1/1     Running   0             41m
-wesql-vtcontroller              2/2     Running   3 (40m ago)   41m
-wesql-vtgate-588f5b4c88-twdfx   1/1     Running   0             41m
+NAME                           READY   STATUS    RESTARTS      AGE
+mycluster-wesql-0-0            2/2     Running   0             25m
+mycluster-wesql-1-0            1/1     Running   1 (22m ago)   25m
+mycluster-wesql-2-0            1/1     Running   1 (22m ago)   25m
+wesql-vtcontroller-0           2/2     Running   0             25m
+wesql-vtgate-87f69955c-h62nx   1/1     Running   0             25m
+wesql-vtgate-87f69955c-t7lbg   1/1     Running   0             25m
 
-$ kubectl exec -it wesql-vtcontroller -c vtctld -- sh
-/vt #
-/vt #   vtctlclient -v
-Version: 16.0.0 (Git revision f8687edb934cbebba354c139f353904cf8a485dc branch 'autoscale-demo') built on Wed Sep 18 11:54:22 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/arm64
+$ kubectl exec -it wesql-vtcontroller-0 -c vtctld -- sh
+/vt #    vtctlclient -v
+WeScale version: 0.3.3 (git revision cb93f4e1dacce0882dde6ec27ee409c011684034 branch 'HEAD') built on Tue Oct 22 03:40:00 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
 ```
 
 If you are using `docker`, you can enter the `wescale` container to run the `vtctlclient` command:
@@ -149,12 +149,12 @@ If you are using `docker`, you can enter the `wescale` container to run the `vtc
 ubuntu $ docker exec -it wescale bash
 [root@3c089b5e14fc wesql-server]$
 [root@3c089b5e14fc wesql-server]$   vtctlclient -v
-WeScale version: 0.3.7-alpha1 (git revision 1605aba2fa12eabd6078d119c8980dcf278240d8 branch 'HEAD') built on Tue Nov  5 05:52:23 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
+WeScale version: 0.3.3 (git revision cb93f4e1dacce0882dde6ec27ee409c011684034 branch 'HEAD') built on Tue Oct 22 03:40:00 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
 ```
 
 ## Step2: Create a Branch Workflow
 
-The `Prepare` action create a branch workflow by copying the schema from the source database to the target database. 
+The `Prepare` action create a branch workflow by copying the schema from the source database to the target database.
 
 
 ### Example
@@ -239,7 +239,7 @@ Prepare
 
 ## Step3: Data Streaming and Transformation
 
-Once `Prepare` command is executed, you can define data transformation rules for each table in the `mysql.branch_table_rules` table. 
+Once `Prepare` command is executed, you can define data transformation rules for each table in the `mysql.branch_table_rules` table.
 This allows you to filter, transform, or generate mock data before streaming it to the target database.
 All you need to do is update the `filtering_rule` column in the `branch_table_rules` table.
 
@@ -253,14 +253,6 @@ WHERE source_table_name = 'user' and workflow_name='branch_test';
 UPDATE mysql.branch_table_rules 
 SET filtering_rule='SELECT customer_id, gofakeit_bytype(''regex'', ''^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'') AS email FROM customer' 
 WHERE source_table_name = 'customer' and workflow_name='branch_test';
-
-UPDATE mysql.branch_table_rules 
-SET filtering_rule='SELECT sku, description, gofakeit_bytype(''intrange'', 110, 150) AS price, gofakeit_bytype(''floatrange'', 23.5, 23.9) AS weight FROM product' 
-WHERE source_table_name = 'product' and workflow_name='branch_test';
-
-UPDATE mysql.branch_table_rules 
-SET filtering_rule='SELECT order_id, gofakeit_bytype(''bigint'') AS customer_id, gofakeit_generate(''{firstname}:###:???:{moviename}'') AS sku, gofakeit_bytype(''bigint'') AS price FROM corder' 
-WHERE source_table_name = 'corder' and workflow_name='branch_test';
 ```
 
 
@@ -287,32 +279,12 @@ It's very convenient for generating mock data in the target branch for testing p
 > For more information on `gofakeit` functions, see the [Using `gofakeit` Functions in Data Streaming and Transformation](#using-gofakeit-functions-in-data-streaming-and-transformation) section.
 ```sql
 mysql> select * from branch_source.user;
-Empty set (0.00 sec)
-
 
 mysql> select * from branch_target.user;
-Empty set (0.00 sec)
 
+mysql> select * from branch_source.customer;
 
-mysql> insert into branch_source.user values (1, 'Bryce');
-Query OK, 1 row affected (0.02 sec)
-
-mysql> select * from branch_source.user;
-+----+-------+
-| id | name  |
-+----+-------+
-|  1 | Bryce |
-+----+-------+
-1 row in set (0.00 sec)
-
-
-mysql> select * from branch_target.user;
-+----+-----------------------------+
-| id | name                        |
-+----+-----------------------------+
-|  1 | Magdalen:008:jEv:Unforgiven |
-+----+-----------------------------+
-1 row in set (0.01 sec)
+mysql> select * from branch_target.customer;
 ```
 
 <details>
@@ -374,17 +346,17 @@ mysql> ALTER TABLE branch_target.product ADD COLUMN v3 INT;
 
 mysql> # Check the table schema and make sure the OnlineDDL is completed.
 mysql> show create table branch_target.product\G
-*************************** 1. row ***************************
-       Table: product
+    *************************** 1. row ***************************
+    Table: product
 Create Table: CREATE TABLE `product` (
-  `sku` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `price` bigint DEFAULT NULL,
-  `v2` int DEFAULT NULL,
-  `v3` int DEFAULT NULL,
-  PRIMARY KEY (`sku`)
-) ENGINE=SMARTENGINE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
-1 row in set (0.01 sec)
+                                         `sku` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `description` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `price` bigint DEFAULT NULL,
+    `v2` int DEFAULT NULL,
+    `v3` int DEFAULT NULL,
+    PRIMARY KEY (`sku`)
+    ) ENGINE=SMARTENGINE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+    1 row in set (0.01 sec)
 ```
 
 Then run the `SchemaDiff` action to compare the source and target database schemas:
@@ -417,13 +389,13 @@ Branch -- --workflow_name=${workflow_name} SchemaDiff \
 (default `create_table`)
 - `create_table`: Show difference of create table SQLs of compare objects.
 - `ddl`: Show DDls used to convert from first compare object to second compare object.
-- `conflict`: Show whether schema of first compare object can be merged to schema of second compare object without conflicts. 
+- `conflict`: Show whether schema of first compare object can be merged to schema of second compare object without conflicts.
 
 </details>
 
 ## Step7: PrepareMergeBack
 
-The `PrepareMergeBack` action is a prerequisite for the `StartMergeBack` action. 
+The `PrepareMergeBack` action is a prerequisite for the `StartMergeBack` action.
 It generates DDL statements that will be executed at the source side, so that the schema changes made at the target side can be merged back to the source side.
 
 Since `product` table on the target side has two additional columns `v2` and `v3`, the DDL statement will be generated to add these two columns to the source side.
@@ -586,10 +558,10 @@ Here are some example queries that demonstrate typical business use cases for th
 ```sql
 SELECT c.customer_id, c.email, SUM(co.price) AS total_spent
 FROM branch_source.customer c
-JOIN branch_source.corder co ON c.customer_id = co.customer_id
+         JOIN branch_source.corder co ON c.customer_id = co.customer_id
 GROUP BY c.customer_id, c.email
 ORDER BY total_spent DESC
-LIMIT 5;
+    LIMIT 5;
 ```
 
 **2. Find the most popular product (most frequently ordered):**
@@ -597,10 +569,10 @@ LIMIT 5;
 ```sql
 SELECT p.sku, p.description, COUNT(co.order_id) AS order_count
 FROM branch_source.product p
-JOIN branch_source.corder co ON p.sku = co.sku
+         JOIN branch_source.corder co ON p.sku = co.sku
 GROUP BY p.sku, p.description
 ORDER BY order_count DESC
-LIMIT 1;
+    LIMIT 1;
 ```
 
 **3. Find all orders made by a specific customer:**

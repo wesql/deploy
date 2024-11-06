@@ -193,7 +193,7 @@ mysql> /*explain filter*/ SELECT * FROM test_filter.t1;
 
 
 ```sql
-MySQL [test_filter]> /*explain filter*/ DELETE FROM test_filter.t2 where c1 > 0;
+/*explain filter*/ DELETE FROM test_filter.t2 where c1 > 0;
 ```
 
 **Sample Output:**

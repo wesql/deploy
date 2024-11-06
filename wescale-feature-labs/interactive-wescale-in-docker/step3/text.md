@@ -1,11 +1,3 @@
----
-title: Branch
-description: WeSQL Branch 
-keywords: [features, branch]
-sidebar_position: 2
-sidebar_label: Branch
----
-
 # Branch
 
 ## Overview
@@ -36,6 +28,7 @@ For a simple database copy, focus on the `Prepare`, `PrepareMergeBack`, `StartMe
 
 ## Step1: Example Scenario Setup
 
+### Create Sample Tables
 We'll use a sample environment to demonstrate the Branch feature. Execute the following commands to create the source database and tables:
 
 ```sql
@@ -69,6 +62,8 @@ CREATE TABLE IF NOT EXISTS branch_source.corder (
     PRIMARY KEY(order_id)
   ) ENGINE=InnoDB;
 ```
+
+### Insert Sample Data
 
 You can then insert some sample data into the tables:
 ```sql
@@ -127,24 +122,39 @@ CROSS JOIN (SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5
 WHERE c.n <= 10000;
 ```
 
-We need to use `vtctlclient` to execute the `Branch` command. You can enter the `wesql-vtcontroller` Pod to run the `vtctlclient` command:
-```shell
-kubectl get po
-NAME                            READY   STATUS    RESTARTS      AGE
-mycluster-wesql-0-0             2/2     Running   0             41m
-mycluster-wesql-1-0             1/1     Running   0             41m
-mycluster-wesql-2-0             1/1     Running   0             41m
-wesql-vtcontroller              2/2     Running   3 (40m ago)   41m
-wesql-vtgate-588f5b4c88-twdfx   1/1     Running   0             41m
+With the tables and data in place, you can now proceed with the Branch feature, or try out the sample queries provided in the [Example Business Queries](#example-business-queries) section.
 
-kubectl exec -it wesql-vtcontroller -c vtctld -- sh
-/vt # vtctlclient -v
-Version: 16.0.0 (Git revision f8687edb934cbebba354c139f353904cf8a485dc branch 'autoscale-demo') built on Wed Sep 18 11:54:22 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/arm64
+### Prepare Branch Command Client
+
+We need to use `vtctlclient` to execute the `Branch` command.
+
+If you are using `kubernetes`, you can enter the `wesql-vtcontroller` Pod to run the `vtctlclient` command:
+```shell
+$ kubectl get po
+NAME                           READY   STATUS    RESTARTS      AGE
+mycluster-wesql-0-0            2/2     Running   0             25m
+mycluster-wesql-1-0            1/1     Running   1 (22m ago)   25m
+mycluster-wesql-2-0            1/1     Running   1 (22m ago)   25m
+wesql-vtcontroller-0           2/2     Running   0             25m
+wesql-vtgate-87f69955c-h62nx   1/1     Running   0             25m
+wesql-vtgate-87f69955c-t7lbg   1/1     Running   0             25m
+
+$ kubectl exec -it wesql-vtcontroller-0 -c vtctld -- sh
+/vt #    vtctlclient -v
+WeScale version: 0.3.3 (git revision cb93f4e1dacce0882dde6ec27ee409c011684034 branch 'HEAD') built on Tue Oct 22 03:40:00 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
+```
+
+If you are using `docker`, you can enter the `wescale` container to run the `vtctlclient` command:
+```shell
+ubuntu $ docker exec -it wescale bash
+[root@3c089b5e14fc wesql-server]$
+[root@3c089b5e14fc wesql-server]$   vtctlclient -v
+WeScale version: 0.3.3 (git revision cb93f4e1dacce0882dde6ec27ee409c011684034 branch 'HEAD') built on Tue Oct 22 03:40:00 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
 ```
 
 ## Step2: Create a Branch Workflow
 
-The `Prepare` action create a branch workflow by copying the schema from the source database to the target database. 
+The `Prepare` action create a branch workflow by copying the schema from the source database to the target database.
 
 
 ### Example
@@ -159,21 +169,19 @@ vtctlclient --server localhost:15999 Branch -- \
   --target_database branch_target \
   --workflow_name branch_test \
   --skip_copy_phase=false \
-  --stop_after_copy=false
+  --stop_after_copy=false \
 Prepare
 ```
 
 **Output:**
 
 ```
-Successfully created branch workflow: branch_test
-Source Database: branch_source
-Target Database: branch_target
-Rules:
-[source_table:"corder" target_table:"corder" filtering_rule:"SELECT * FROM corder"]
-[source_table:"customer" target_table:"customer" filtering_rule:"SELECT * FROM customer"]
-[source_table:"product" target_table:"product" filtering_rule:"SELECT * FROM product"]
-[source_table:"user" target_table:"user" filtering_rule:"SELECT * FROM user"]
+successfully create branch workflow : branch_test sourceDatabase : branch_source targetDatabase : branch_target
+rules : 
+[source_table:"corder" target_table:"corder" filtering_rule:"select * from corder " create_ddl:"copy" merge_ddl:"copy"]
+[source_table:"customer" target_table:"customer" filtering_rule:"select * from customer " create_ddl:"copy" merge_ddl:"copy"]
+[source_table:"product" target_table:"product" filtering_rule:"select * from product " create_ddl:"copy" merge_ddl:"copy"]
+[source_table:"user" target_table:"user" filtering_rule:"select * from `user` " create_ddl:"copy" merge_ddl:"copy"]
 ```
 
 The output shows that the branch workflow `branch_test` has been created. Now you can verify that the `branch_target` database has been created:
@@ -231,28 +239,20 @@ Prepare
 
 ## Step3: Data Streaming and Transformation
 
-Once `Prepare` command is executed, you can define data transformation rules for each table in the `mysql.branch_table_rules` table. 
+Once `Prepare` command is executed, you can define data transformation rules for each table in the `mysql.branch_table_rules` table.
 This allows you to filter, transform, or generate mock data before streaming it to the target database.
 All you need to do is update the `filtering_rule` column in the `branch_table_rules` table.
 
 ### Example
 
 ```sql
-mysql> UPDATE mysql.branch_table_rules 
-SET filtering_rule='SELECT id, gofakeit_generate(''{firstname}:###:???:{moviename}'') AS name FROM user WHERE id <= 100' 
+UPDATE mysql.branch_table_rules 
+SET filtering_rule='SELECT id, gofakeit_generate(''{firstname}:###:???:{moviename}'') AS name FROM user' 
 WHERE source_table_name = 'user' and workflow_name='branch_test';
 
-mysql> UPDATE mysql.branch_table_rules 
-SET filtering_rule='SELECT customer_id, gofakeit_bytype(''regex'', ''^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'') AS email FROM customer WHERE customer_id <= 100' 
+UPDATE mysql.branch_table_rules 
+SET filtering_rule='SELECT customer_id, gofakeit_bytype(''regex'', ''^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'') AS email FROM customer' 
 WHERE source_table_name = 'customer' and workflow_name='branch_test';
-
-mysql> UPDATE mysql.branch_table_rules 
-SET filtering_rule='SELECT sku, description, gofakeit_bytype(''intrange'', 110, 150) AS price, gofakeit_bytype(''floatrange'', 23.5, 23.9) AS weight FROM product' 
-WHERE source_table_name = 'product' and workflow_name='branch_test';
-
-mysql> UPDATE mysql.branch_table_rules 
-SET filtering_rule='SELECT order_id, gofakeit_bytype(''bigint'') AS customer_id, gofakeit_generate(''{firstname}:###:???:{moviename}'') AS sku, gofakeit_bytype(''bigint'') AS price FROM corder WHERE customer_id <= 100' 
-WHERE source_table_name = 'corder' and workflow_name='branch_test';
 ```
 
 
@@ -279,32 +279,12 @@ It's very convenient for generating mock data in the target branch for testing p
 > For more information on `gofakeit` functions, see the [Using `gofakeit` Functions in Data Streaming and Transformation](#using-gofakeit-functions-in-data-streaming-and-transformation) section.
 ```sql
 mysql> select * from branch_source.user;
-Empty set (0.00 sec)
-
 
 mysql> select * from branch_target.user;
-Empty set (0.00 sec)
 
+mysql> select * from branch_source.customer;
 
-mysql> insert into branch_source.user values (1, 'Bryce');
-Query OK, 1 row affected (0.02 sec)
-
-mysql> select * from branch_source.user;
-+----+-------+
-| id | name  |
-+----+-------+
-|  1 | Bryce |
-+----+-------+
-1 row in set (0.00 sec)
-
-
-mysql> select * from branch_target.user;
-+----+-----------------------------+
-| id | name                        |
-+----+-----------------------------+
-|  1 | Magdalen:008:jEv:Unforgiven |
-+----+-----------------------------+
-1 row in set (0.01 sec)
+mysql> select * from branch_target.customer;
 ```
 
 <details>
@@ -366,17 +346,17 @@ mysql> ALTER TABLE branch_target.product ADD COLUMN v3 INT;
 
 mysql> # Check the table schema and make sure the OnlineDDL is completed.
 mysql> show create table branch_target.product\G
-*************************** 1. row ***************************
-       Table: product
+    *************************** 1. row ***************************
+    Table: product
 Create Table: CREATE TABLE `product` (
-  `sku` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `price` bigint DEFAULT NULL,
-  `v2` int DEFAULT NULL,
-  `v3` int DEFAULT NULL,
-  PRIMARY KEY (`sku`)
-) ENGINE=SMARTENGINE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
-1 row in set (0.01 sec)
+                                         `sku` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `description` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `price` bigint DEFAULT NULL,
+    `v2` int DEFAULT NULL,
+    `v3` int DEFAULT NULL,
+    PRIMARY KEY (`sku`)
+    ) ENGINE=SMARTENGINE DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+    1 row in set (0.01 sec)
 ```
 
 Then run the `SchemaDiff` action to compare the source and target database schemas:
@@ -409,13 +389,13 @@ Branch -- --workflow_name=${workflow_name} SchemaDiff \
 (default `create_table`)
 - `create_table`: Show difference of create table SQLs of compare objects.
 - `ddl`: Show DDls used to convert from first compare object to second compare object.
-- `conflict`: Show whether schema of first compare object can be merged to schema of second compare object without conflicts. 
+- `conflict`: Show whether schema of first compare object can be merged to schema of second compare object without conflicts.
 
 </details>
 
 ## Step7: PrepareMergeBack
 
-The `PrepareMergeBack` action is a prerequisite for the `StartMergeBack` action. 
+The `PrepareMergeBack` action is a prerequisite for the `StartMergeBack` action.
 It generates DDL statements that will be executed at the source side, so that the schema changes made at the target side can be merged back to the source side.
 
 Since `product` table on the target side has two additional columns `v2` and `v3`, the DDL statement will be generated to add these two columns to the source side.
@@ -515,12 +495,14 @@ Cleanup for workflow 'branch_test' completed successfully.
 Branch -- --workflow_name=${workflow_name} Cleanup
 </details>
 
-## Using `gofakeit` Functions in Data Streaming and Transformation
+## Appendix
+
+### Using `gofakeit` Functions in Data Streaming and Transformation
 
 The Branch feature supports `gofakeit_generate` and `gofakeit_bytype` functions for data generation, compatible with MySQL data types.
 It only works with the `Branch` feature and is not available for general queries.
 
-### `gofakeit_generate`
+**gofakeit_generate:**
 
 Generates random strings based on patterns. Refer to the [gofakeit documentation](https://github.com/brianvoe/gofakeit) for pattern syntax.
 
@@ -530,7 +512,7 @@ Generates random strings based on patterns. Refer to the [gofakeit documentation
 SELECT gofakeit_generate('{firstname} {lastname}') AS full_name;
 ```
 
-### `gofakeit_bytype`
+**gofakeit_bytype:**
 
 Generates random data based on specified types.
 
@@ -567,7 +549,7 @@ SELECT gofakeit_bytype('intrange', 1, 100) AS random_number;
 
 ----
 
-## Queries
+### Example Business Queries
 
 Here are some example queries that demonstrate typical business use cases for the given tables, along with explanations:
 
@@ -576,10 +558,10 @@ Here are some example queries that demonstrate typical business use cases for th
 ```sql
 SELECT c.customer_id, c.email, SUM(co.price) AS total_spent
 FROM branch_source.customer c
-JOIN branch_source.corder co ON c.customer_id = co.customer_id
+         JOIN branch_source.corder co ON c.customer_id = co.customer_id
 GROUP BY c.customer_id, c.email
 ORDER BY total_spent DESC
-LIMIT 5;
+    LIMIT 5;
 ```
 
 **2. Find the most popular product (most frequently ordered):**
@@ -587,10 +569,10 @@ LIMIT 5;
 ```sql
 SELECT p.sku, p.description, COUNT(co.order_id) AS order_count
 FROM branch_source.product p
-JOIN branch_source.corder co ON p.sku = co.sku
+         JOIN branch_source.corder co ON p.sku = co.sku
 GROUP BY p.sku, p.description
 ORDER BY order_count DESC
-LIMIT 1;
+    LIMIT 1;
 ```
 
 **3. Find all orders made by a specific customer:**
