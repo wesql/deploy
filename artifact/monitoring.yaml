@@ -4378,7 +4378,7 @@ spec:
           value: Admin
         - name: GF_AUTH_DISABLE_LOGIN_FORM
           value: "true"
-        image: grafana/grafana
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/grafana:11.1.5
         name: grafana
         ports:
         - containerPort: 3000
@@ -4422,7 +4422,7 @@ spec:
       - args:
         - --config.file=/etc/prometheus/prometheus.yml
         - --web.enable-lifecycle
-        image: prom/prometheus
+        image: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/prometheus:v2.44.0
         name: prometheus
         ports:
         - containerPort: 9090

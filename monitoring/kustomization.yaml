@@ -9,3 +9,11 @@ resources:
   - ./prometheus-service.yaml
   - ./wesql-grafana-configmap.yaml
   - ./wesql-prometheus-configmap.yaml
+
+images:
+  - name: grafana/grafana
+    newName: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/grafana
+    newTag: 11.1.5
+  - name: prom/prometheus
+    newName: apecloud-registry.cn-zhangjiakou.cr.aliyuncs.com/apecloud/prometheus
+    newTag: v2.44.0
