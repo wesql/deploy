@@ -141,7 +141,7 @@ wesql-vtgate-87f69955c-t7lbg   1/1     Running   0             25m
 
 $ kubectl exec -it wesql-vtcontroller-0 -c vtctld -- sh
 /vt #    vtctlclient -v
-WeScale version: 0.3.6 (git revision 1605aba2fa12eabd6078d119c8980dcf278240d8 branch 'HEAD') built on Tue Nov  5 05:52:23 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
+WeScale version: 0.3.7-alpha1 (git revision 1605aba2fa12eabd6078d119c8980dcf278240d8 branch 'HEAD') built on Tue Nov  5 05:52:23 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
 ```
 
 If you are using `docker`, you can enter the `wescale` container to run the `vtctlclient` command:
@@ -149,7 +149,7 @@ If you are using `docker`, you can enter the `wescale` container to run the `vtc
 ubuntu $ docker exec -it wescale bash
 [root@3c089b5e14fc wesql-server]$
 [root@3c089b5e14fc wesql-server]$   vtctlclient -v
-WeScale version: 0.3.6 (git revision 1605aba2fa12eabd6078d119c8980dcf278240d8 branch 'HEAD') built on Tue Nov  5 05:52:23 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
+WeScale version: 0.3.7-alpha1 (git revision 1605aba2fa12eabd6078d119c8980dcf278240d8 branch 'HEAD') built on Tue Nov  5 05:52:23 UTC 2024 by root@buildkitsandbox using go1.20.2 linux/amd64
 ```
 
 ## Step2: Create a Branch Workflow
