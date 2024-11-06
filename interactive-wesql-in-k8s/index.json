@@ -31,19 +31,23 @@
       },
       {
         "title": "WeScale Feature",
-        "text": "step6_onlineddl/OnlineDDL.md"
+        "text": "step6_declarative_ddl/Declarative_DDL.md"
       },
       {
         "title": "WeScale Feature",
-        "text": "step7_filters/Filters.md"
+        "text": "step7_onlineddl/OnlineDDL.md"
       },
       {
         "title": "WeScale Feature",
-        "text": "step8_transaction_chopping/Transaction-Chopping.md"
+        "text": "step8_filters/Filters.md"
       },
       {
         "title": "WeScale Feature",
-        "text": "step9_branch/Branch.md"
+        "text": "step9_transaction_chopping/Transaction-Chopping.md"
+      },
+      {
+        "title": "WeScale Feature",
+        "text": "step10_branch/Branch.md"
       }
     ],
     "finish": {
