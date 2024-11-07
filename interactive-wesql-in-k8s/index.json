@@ -39,15 +39,15 @@
       },
       {
         "title": "WeScale Feature",
-        "text": "step8_filters/Filters.md"
+        "text": "step8_branch/Branch.md"
       },
       {
         "title": "WeScale Feature",
-        "text": "step9_transaction_chopping/Transaction-Chopping.md"
+        "text": "step9_filters/Filters.md"
       },
       {
         "title": "WeScale Feature",
-        "text": "step10_branch/Branch.md"
+        "text": "step10_transaction_chopping/Transaction-Chopping.md"
       }
     ],
     "finish": {
