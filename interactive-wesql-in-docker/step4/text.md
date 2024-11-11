@@ -9,6 +9,6 @@ docker run -itd --network host --name wescale \
   -e MYSQL_ROOT_PASSWORD=passwd \
   -e MYSQL_PORT=3306 \
   -e MYSQL_HOST=127.0.0.1 \
-  apecloud/apecloud-mysql-scale:0.3.7-alpha1 \
+  apecloud/apecloud-mysql-scale:0.3.7 \
   /vt/examples/wesql-server/init_single_node_cluster.sh
 ```{{exec}}
