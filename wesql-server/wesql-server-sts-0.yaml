@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: apecloud/wesql-server:8.0.35-0.1.0_beta1.g4a5a4eb.33
+          image: apecloud/wesql-server:8.0.35-0.1.0_beta1.37
           imagePullPolicy: IfNotPresent
           env:
           - name: MYSQL_ROOT_PASSWORD
