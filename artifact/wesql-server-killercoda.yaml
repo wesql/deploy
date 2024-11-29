@@ -68,7 +68,7 @@ spec:
             secretKeyRef:
               key: WESQL_OBJECTSTORE_SECRET_KEY
               name: wesql-server-secret
-        image: apecloud/wesql-server:8.0.35-0.1.0_beta1.37
+        image: apecloud/wesql-server:8.0.35-0.1.0_beta2.37
         imagePullPolicy: IfNotPresent
         name: mysql
         ports:
@@ -151,7 +151,7 @@ spec:
             secretKeyRef:
               key: WESQL_OBJECTSTORE_SECRET_KEY
               name: wesql-server-secret
-        image: apecloud/wesql-server:8.0.35-0.1.0_beta1.37
+        image: apecloud/wesql-server:8.0.35-0.1.0_beta2.37
         imagePullPolicy: IfNotPresent
         name: mysql
         ports:
@@ -234,7 +234,7 @@ spec:
             secretKeyRef:
               key: WESQL_OBJECTSTORE_SECRET_KEY
               name: wesql-server-secret
-        image: apecloud/wesql-server:8.0.35-0.1.0_beta1.37
+        image: apecloud/wesql-server:8.0.35-0.1.0_beta2.37
         imagePullPolicy: IfNotPresent
         name: mysql
         ports:

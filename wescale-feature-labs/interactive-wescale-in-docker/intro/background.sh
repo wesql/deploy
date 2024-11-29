@@ -24,8 +24,6 @@ gtid_mode=ON
 enforce_gtid_consistency=ON
 log_replica_updates=ON
 binlog_format=ROW
-datadir=/data/mysql/data
-log-error=/data/mysql/log/mysqld-error.log
 EOL
 fi
 

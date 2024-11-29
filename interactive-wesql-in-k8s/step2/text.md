@@ -18,8 +18,6 @@ data:
     objectstore_bucket=${WESQL_OBJECTSTORE_BUCKET}
     repo_objectstore_id=sysbench
     branch_objectstore_id=main
-    datadir=/data/mysql/data
-    log-error=/data/mysql/log/mysqld-error.log
     log-bin=binlog
     gtid_mode=ON
     enforce_gtid_consistency=ON
