@@ -30,7 +30,7 @@ docker run -itd --network host --name wesql-server \
     -e WESQL_OBJECTSTORE_REGION=${WESQL_OBJECTSTORE_REGION} \
     -e WESQL_OBJECTSTORE_ACCESS_KEY=${WESQL_OBJECTSTORE_ACCESS_KEY} \
     -e WESQL_OBJECTSTORE_SECRET_KEY=${WESQL_OBJECTSTORE_SECRET_KEY} \
-    apecloud/wesql-server:8.0.35-0.1.0_beta2.37
+    apecloud/wesql-server:8.0.35-0.1.0_beta3.38
 ```{{exec}}
 
 Each WeSQL server starts two ports: one is port 3306, which provides the MySQL service, and the other is port 13306, which is used for Raft protocol communication between WeSQL servers.
