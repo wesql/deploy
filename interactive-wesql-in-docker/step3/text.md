@@ -22,12 +22,12 @@ docker run -itd --network host --name wesql-server \
   binlog_format=ROW\n\
   objectstore_provider='aws'\n\
   repo_objectstore_id='tutorial'\n\
+  objectstore_bucket='${WESQL_OBJECTSTORE_BUCKET}'\n\
+  objectstore_region='${WESQL_OBJECTSTORE_REGION}'\n\
   branch_objectstore_id='main'\
     -v ~/wesql-local-dir:/data/mysql \
     -e WESQL_CLUSTER_MEMBER='127.0.0.1:13306' \
     -e MYSQL_ROOT_PASSWORD=passwd \
-    -e WESQL_OBJECTSTORE_BUCKET=${WESQL_OBJECTSTORE_BUCKET} \
-    -e WESQL_OBJECTSTORE_REGION=${WESQL_OBJECTSTORE_REGION} \
     -e WESQL_OBJECTSTORE_ACCESS_KEY=${WESQL_OBJECTSTORE_ACCESS_KEY} \
     -e WESQL_OBJECTSTORE_SECRET_KEY=${WESQL_OBJECTSTORE_SECRET_KEY} \
     apecloud/wesql-server:8.0.35-0.1.0_beta3.38
