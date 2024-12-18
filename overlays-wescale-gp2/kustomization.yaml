@@ -8,7 +8,7 @@ images:
   - name: apecloud/wesql-server
     newTag: 8.0.35-0.1.0_beta3.38
   - name: apecloud/apecloud-mysql-scale
-    newTag: 0.3.7
+    newTag: 0.3.8
 
 patches:
   - target:
